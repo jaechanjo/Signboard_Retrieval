@@ -1,0 +1,23 @@
+version: '2.3'
+  
+services:
+  main:
+    container_name: "signboard_retrieval_sift_vit"
+    build:
+      context: "./"
+      dockerfile: Dockerfile
+    runtime: nvidia
+    restart: always
+    env_file:
+      - "docker-compose-env/main.env"
+    volumes:
+      - "./:/workspace/"
+    expose:
+      - "8000"
+    ports:dock
+      - "33000:8888"
+      - "33001:8097"
+      - "33002:22"
+    ipc: host
+    stdin_open: true
+    tty: true
