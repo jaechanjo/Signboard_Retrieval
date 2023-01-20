@@ -4,6 +4,11 @@
 
 파노라마 뷰 이미지 
 
+### Input/output
+input: 쿼리, 데이터 베이스 파노라마 내 간판 이미지  
+output: 매칭된 쿼리 간판 이미지, 매칭된 데이터 베이스 간판 이미지, 간판 간 유사도가 높은 순으로 저장된 텍스트 파일  
+ex) 0,0,0.20163237
+
 ### Learning based feature extractor s**ystem**
 
 ![Image_Retrieval_System](./imgs/image_retrieval_system.png)
