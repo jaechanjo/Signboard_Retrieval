@@ -27,7 +27,7 @@ python rank.py
 ### Model
 
 Swin Transformer(ImageNet-22K Pretrained), 384x384 size, last swintransformer block feature 
-
+![teaser](https://user-images.githubusercontent.com/57248121/213603171-64fa76dc-7ea0-4e73-8eca-ec90e3cbf1dd.png)
 [https://github.com/microsoft/Swin-Transformer](https://github.com/microsoft/Swin-Transformer)
 
 ### Argument
