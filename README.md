@@ -17,7 +17,7 @@ Python implementation
 
 ## Evaluation
 
-### Panorama datasets
+### 1) Panorama datasets
 <table style="width:100%">
   <tr>
     <th>Dataset details</th>
@@ -46,8 +46,8 @@ Python implementation
 </table>
 
 
-### Performace evaluation
-1. According to the match threshold, recall and precision of top1
+### 2) Performace evaluation
+- According to the match threshold, recall and precision of top1
  <table style="width:100%">
   <tr>
     <th>Match threshold</th>
@@ -71,7 +71,7 @@ Python implementation
   </tr>
 </table>
    
-2. When the best match threshold is 1/4, depending on the model
+- When the best match threshold is 1/4, depending on the model
  <table style="width:100%">
   <tr>
     <th>Match threshold_1/4</th>
@@ -95,7 +95,7 @@ Python implementation
   </tr>
 </table>
 
-### Time (sec)
+### 3) Time (sec)
 
 <table style="width:100%">
  <tr>
@@ -120,7 +120,7 @@ Python implementation
 
 ## Setup
 
-### 1. Docker compose
+### 1) Docker compose
 
 ```shell
 cd ${WORKSPACE}  # directory for git clone
@@ -129,13 +129,13 @@ cd Signboard_Retrieval
 docker-compose up -d  # build docker container
 ```
 
-### 2. Packages
+### 2) Packages
 
 ```shell
 cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE"; done  # ignore error of install version 
 ```
 
-### 3. File Tree
+### 3) File Tree
 
 ```shell
 ${WORKSPACE}/Signboard_Retrieval/
