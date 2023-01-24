@@ -17,7 +17,7 @@ Python implementation
 
 ## Evaluation
 
-### Panorama datasets
+### 1. Panorama datasets
 <table style="width:100%">
   <tr>
     <th>Dataset details</th>
@@ -46,8 +46,8 @@ Python implementation
 </table>
 
 
-### Performace evaluation
-1. According to the match threshold, recall and precision of top1
+### 2. Performace evaluation
+- According to the match threshold, recall and precision of top1
  <table style="width:100%">
   <tr>
     <th>Match threshold</th>
@@ -71,7 +71,7 @@ Python implementation
   </tr>
 </table>
    
-2. When the best match threshold is 1/4, depending on the model
+- When the best match threshold is 1/4, depending on the model
  <table style="width:100%">
   <tr>
     <th>Match threshold_1/4</th>
@@ -95,7 +95,7 @@ Python implementation
   </tr>
 </table>
 
-### Time (sec)
+### 3. Time (sec)
 
 <table style="width:100%">
  <tr>
@@ -155,7 +155,7 @@ ${WORKSPACE}/Signboard_Retrieval/
 ## Usage
 All commands should be executed within the `Signboard_Retrieval/` subfolder
 
-### 1) Running Matching
+### 1. Running Matching
 
 ```shell
 python3 main.py\
@@ -175,7 +175,7 @@ python3 main.py\
 # --num_workers
 ```
 
-### 2) Import function
+### 2. Import function
 
 ```shell
 from ${WORKSPACE}.Signboard_Retrieval import main
@@ -194,7 +194,7 @@ result_dict = main(q_img_path, db_img_path, q_json_path, db_json_path, \
 # the number is cropped index, [] means unmatched pairs
 ```
 
-### 3) Validation on labeled dataset
+### 3. Validation on labeled dataset
 
   - Parsing Label
     - parsing file name : {cropped_index}_{label}_{changed_flag}
@@ -211,7 +211,7 @@ result_dict = main(q_img_path, db_img_path, q_json_path, db_json_path, \
   #save_dir : str, the directory of saving parsing image files 
   ```
 
-  For more detailed instructions, see the instructions in the validation.ipynb
+  For more detailed instructions, see the instructions in the [validation.ipynb](./validation.ipynb)
 
 ```
 ### Best result
@@ -259,6 +259,7 @@ precision@1: 0.79
     }
 ```
 
-## Credits
-This implementation was developed by **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee.** Please send e-mail for any inquiry.
+## Others
+This implementation was developed by **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee.** 
+
 If you have any problem or error during running code, please email to us.
