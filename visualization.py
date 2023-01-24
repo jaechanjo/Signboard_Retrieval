@@ -1,5 +1,6 @@
 import cv2
 import json
+import os
 from pathlib import Path
 
 def dic2visualization(q_img_path, db_img_path, q_json_path, db_json_path, result_dict,\
@@ -68,6 +69,11 @@ def dic2visualization(q_img_path, db_img_path, q_json_path, db_json_path, result
     
     #save
     out_file = save_dir + f"/pair_{panorama_id}_{method}.jpg"
+    
+    #if duplicated, remove it
+    if os.path.isfile(out_file):
+        os.remove(out_file)
+    
     cv2.imwrite(save_dir + f"/pair_{panorama_id}_{method}.jpg", im_h)
     
     #done

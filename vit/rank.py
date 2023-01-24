@@ -34,6 +34,11 @@ def search(query_feature, reference_feature):
 def make_result(D, I, panorama_id, result_path):
 
     res_txt_path = result_path + f"pair_{panorama_id}_vit.txt"
+    
+    # if repeated, the lines is accumulated
+    if os.path.isfile(res_txt_path):
+        os.remove(res_txt_path)
+        
     with open(res_txt_path, 'a', encoding='utf-8') as f:
         for n, q_idx in enumerate(range(I.shape[0])):
             #print(f"D is \n{D}")    # 두 대상의 유사도 높은 순으로 나열 

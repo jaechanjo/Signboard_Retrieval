@@ -13,20 +13,20 @@ def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo=
     merge_dict = {}
         
     for m in method.split('_'):
-        try:
-            with open(f"{result_path}/{m}_best_pair/pair_{panorama_id}_{m}.txt", "r") as f:
-                for line in f.readlines():
-                    data = line.strip().split(',')
-                    img1 = data[0].split('.')[0]
-                    img2 = data[1].split('.')[0]
-                    score = float(data[2]) #cosine_similarity
+        # try:
+        with open(f"{result_path}/{m}_best_pair/pair_{panorama_id}_{m}.txt", "r") as f:
+            for line in f.readlines():
+                data = line.strip().split(',')
+                img1 = data[0].split('.')[0]
+                img2 = data[1].split('.')[0]
+                score = float(data[2]) #cosine_similarity
 
-                    if img1+'-'+img2 not in merge_dict: #3가지 방법에서 특정 q_db pair가 중복된다면, 점수를 합산!
-                        merge_dict[img1+'-'+img2] = score
-                    else:
-                        merge_dict[img1+'-'+img2] += score
-        except:
-            print(f"method {m} error")
+                if img1+'-'+img2 not in merge_dict: #3가지 방법에서 특정 q_db pair가 중복된다면, 점수를 합산!
+                    merge_dict[img1+'-'+img2] = score
+                else:
+                    merge_dict[img1+'-'+img2] += score
+        # except:
+        #     print(f"method {m} error")
     
     #change form
     result_dict = {}

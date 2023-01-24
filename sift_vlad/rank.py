@@ -98,6 +98,11 @@ def ret_vlad(q_crop_list, db_crop_list, panorama_id, result_path, metric="cs", d
     # save top1 pair .txt
     os.makedirs(result_path + '/sift_best_pair/', exist_ok=True)
     out_file = result_path + '/sift_best_pair/' + f"pair_{panorama_id}_sift" + ".txt"
+    
+    # if repeated, the lines is accumulated
+    if os.path.isfile(out_file):
+        os.remove(out_file)
+        
     f_out = open(out_file, 'w')
 
     for q_idx in list(result_dic.keys()):

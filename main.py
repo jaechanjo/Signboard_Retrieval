@@ -17,7 +17,7 @@ from visualization import dic2visualization
 
 
 def main(q_img_path, db_img_path, q_json_path, db_json_path, \
-         result_path='./match_score/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0):
+         result_path='./match_score/', topk=1, match_weight='1/4', method='vit', algo='max', device='cuda', batch_size=64, num_workers=0):
     
     #crop panorama query & db
     q_crop_list, db_crop_list, panorama_id = crop_get(q_img_path, db_img_path, q_json_path, db_json_path)
@@ -31,6 +31,8 @@ def main(q_img_path, db_img_path, q_json_path, db_json_path, \
     proc1.join(); proc2.join()
 
     #merge_topk
+    #str2float
+    match_weight = eval(match_weight)
     result_dict = merge_topk(result_path, panorama_id, topk, match_weight, method, algo)
     
     return result_dict
@@ -44,7 +46,7 @@ if __name__ == '__main__':
     parser.add_argument('--db_json_path', nargs='?', type=str, help='db detetion result json path')
     parser.add_argument('--result_path', type=str, default='./match_score/')
     parser.add_argument('--topk', type=int, default=1, help='the number of matching candidates')
-    parser.add_argument('--match_weight', type=float, default=1/4, \
+    parser.add_argument('--match_weight', type=str, default='1/4', \
                         help='threshold of whether matched or not')
     parser.add_argument('--method', type=str, default='vit', \
                         help="module, ['vit', 'sift', 'vit_sift', 'sift_vit']")
@@ -64,6 +66,8 @@ if __name__ == '__main__':
     result_dict = main(opt.q_img_path, opt.db_img_path, opt.q_json_path, opt.db_json_path, \
          opt.result_path, opt.topk, opt.match_weight, opt.method, opt.algo, \
          opt.device, opt.batch_size, opt.num_workers)
+    
+    print(result_dict)
     
     ### visualization ###
 
