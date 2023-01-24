@@ -211,7 +211,7 @@ result_dict = main(q_img_path, db_img_path, q_json_path, db_json_path, \
   #save_dir : str, the directory of saving parsing image files 
   ```
 
-  For more detailed instructions, see the instructions in the validation.ipynb
+  For more detailed instructions, see the instructions in the [validation.ipynb](./validation.ipynb)
 
 ```
 ### Best result
