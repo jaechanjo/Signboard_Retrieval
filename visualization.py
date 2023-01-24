@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 def dic2visualization(q_img_path, db_img_path, q_json_path, db_json_path, result_dict,\
-                      save_dir, method='vit'):
+                      save_dir, method):
     
     panorama_id = Path(q_json_path).stem.split('@')[0] #str
     
