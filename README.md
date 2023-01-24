@@ -259,6 +259,7 @@ precision@1: 0.79
     }
 ```
 
-## Credits
-This implementation was developed by **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee.** Please send e-mail for any inquiry.
+## Others
+This implementation was developed by **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee.** 
+
 If you have any problem or error during running code, please email to us.
