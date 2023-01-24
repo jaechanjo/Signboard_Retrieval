@@ -67,8 +67,6 @@ if __name__ == '__main__':
          opt.result_path, opt.topk, opt.match_weight, opt.method, opt.algo, \
          opt.device, opt.batch_size, opt.num_workers)
     
-    print(result_dict)
-    
     ### visualization ###
 
     dic2visualization(opt.q_img_path, opt.db_img_path, opt.q_json_path, opt.db_json_path,\
