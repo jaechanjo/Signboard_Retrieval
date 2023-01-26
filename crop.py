@@ -3,9 +3,19 @@ import json
 import numpy as np
 from pathlib import Path
 
-def crop_get(q_img_path, db_img_path, q_json_path, db_json_path):
+
+def crop_get(q_img_path, db_img_path):
     
-    panorama_id = Path(q_json_path).stem.split('@')[0] #str
+    '''
+    q_img_path : str, query panorama image path
+    db_img_path : str, db panorama image path
+    '''
+    
+    q_json_path = q_img_path[:-len(Path(q_img_path).suffix)] + '.json'
+    db_json_path = db_img_path[:-len(Path(db_img_path).suffix)] + '.json'
+    
+    q_panorama_id = Path(q_json_path).stem.split('@')[0] #str
+    db_panorama_id = Path(db_json_path).stem.split('@')[0] #str
     
     q_panorama = cv2.cvtColor(cv2.imread(q_img_path), cv2.COLOR_BGR2RGB)
     
@@ -67,4 +77,4 @@ def crop_get(q_img_path, db_img_path, q_json_path, db_json_path):
             db_crop_list.append(croppedImage)
             del croppedImage
         
-    return q_crop_list, db_crop_list, panorama_id
+    return q_crop_list, db_crop_list, q_panorama_id, db_panorama_id

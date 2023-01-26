@@ -1,10 +1,12 @@
-#merge sift & vit
-def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo='max'):
+#input : path
+def merge_topk(result_path, q_img_path, db_img_path, q_panorama_id, db_panorama_id, topk, match_weight, method='vit', algo='max'):
     
     '''
+    topk: int, the number of matching candidates
+    match_weight: float, threshold of whether matched or not
     result_path: str, folder path saving results, './match_score/'
     method: str, what you want to use, ['vit', 'sift', 'vit_sift', 'sift_vit']
-    algo: str, which you want to use for matching algorithm, ['max', 'erase']
+    algo: str, matching algorithm, ['max', 'erase']
         - 'max' : matching pairs for maximizing score
         - 'erase' : matching pairs removing top1 prediction sequentially.
     '''
@@ -14,7 +16,7 @@ def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo=
         
     for m in method.split('_'):
         try:
-            with open(f"{result_path}/{m}_best_pair/pair_{panorama_id}_{m}.txt", "r") as f:
+            with open(f"{result_path}/{m}_best_pair/pair_{q_panorama_id}-{db_panorama_id}_{m}.txt", "r") as f:
                 for line in f.readlines():
                     data = line.strip().split(',')
                     img1 = data[0].split('.')[0]
@@ -26,7 +28,7 @@ def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo=
                     else:
                         merge_dict[img1+'-'+img2] += score
         except:
-            raise Exception(f"method {m} error")
+            print(f"method {m} error")
     
     #change form
     result_dict = {}
@@ -45,7 +47,8 @@ def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo=
             db_list = result_dict[q]
             db_list.append((db, score))
             result_dict[q] = db_list
-
+    del merge_dict
+    
     #Matching Algorithm
     if algo == 'max':
     
@@ -56,7 +59,7 @@ def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo=
             #use match score sorted
             topk_list = sorted(result_dict[q], key=lambda x: -x[1])[:topk] #(db, score)
             result_topk[q] = topk_list
-            
+    
     else: #algo == 'erase'
         result_topk = {}
         erase_list = []
@@ -76,7 +79,8 @@ def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo=
             else: #empty -> score maximization
                 topk_list = sorted(result_dict[q], key=lambda x: -x[1])[:topk] #(db, score)
                 result_topk[q] = topk_list
-
+    del result_dict
+    
     #match or not
     match_thres_dict = {'vit' : [0.34818036103100775, 0.18382692764634148], 'sift' : [0.24703212600804292, 0.14514607468375135], \
                         'vit_sift' : [0.5255381287510346, 0.28420164151355065], 'sift_vit' : [0.5255381287510346, 0.28420164151355065]}        
@@ -103,9 +107,36 @@ def merge_topk(result_path, panorama_id, topk, match_weight, method='vit', algo=
             
         final_dict[q] = thres_list
     
-    final_result_dict[panorama_id] = final_dict
-    
+    final_result_dict[f"{q_panorama_id}-{db_panorama_id}"] = final_dict
+    del result_topk
     #done
     print(f"\nMerge...\nresult_dict\nDone.")
     
-    return final_result_dict
+    ####### json output #####
+    result_json = {}
+    result_json['db_image'] = db_img_path
+    result_json['query_image'] = q_img_path
+    
+    matches_list = []
+    for q_idx in final_result_dict[f"{q_panorama_id}-{db_panorama_id}"].keys():
+        db_idx_list = final_result_dict[f"{q_panorama_id}-{db_panorama_id}"][q_idx]
+        
+        #topk -> list
+        if len(db_idx_list) == 1: #top1
+            db_idx = int(db_idx_list[0])
+        else: #topk
+            db_idx = list(map(int, db_idx_list))
+            
+        #if empty, pass
+        if len(db_idx_list) == 0:
+            pass
+        else:
+            matches_dict = {}
+            matches_dict['db_box_index'] = db_idx
+            matches_dict['query_box_index'] = int(q_idx)
+            
+            matches_list.append(matches_dict)
+    
+    result_json['matches'] = matches_list
+    
+    return final_result_dict, result_json

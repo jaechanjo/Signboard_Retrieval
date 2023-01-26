@@ -8,11 +8,11 @@ import vit.rank as rank
 
 from vit.utils.make_file import find_files #__init__.py 로 다시 수정해보기 
 
-def main(q_crop_list, db_crop_list, panorama_id, result_path, batch_size=64, num_workers=0, device='cuda'):
+def main(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, result_path, batch_size=64, num_workers=0, device='cuda'):
     
     # 파노라마별 크롭된 이미지가 리스트
     query_feature, reference_feature = feature_extractor.main(q_crop_list, db_crop_list, batch_size, num_workers, device)
-    rank.main(query_feature, reference_feature, panorama_id, result_path)
+    rank.main(query_feature, reference_feature, q_panorama_id, db_panorama_id, result_path)
 
 if __name__ == '__main__':
     # feature extractor args 
@@ -33,7 +33,8 @@ if __name__ == '__main__':
     with open('/home/signboard_retrieval/pkl/q_crop_list.pkl', 'rb') as fp: #len은 동일
         q_crop_list = pickle.load(fp)
     
-    panorama_id = 0
-    main(q_crop_list, db_crop_list, panorama_id, result_path=args.result_path, batch_size=args.batch_size,\
+    q_panorama_id = 0
+    db_panorama_id = 0
+    main(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, result_path=args.result_path, batch_size=args.batch_size,\
          num_workers=args.num_workers, device=args.device)
     

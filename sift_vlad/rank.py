@@ -7,7 +7,7 @@ from sift_vlad.utils.kmeans_clustering import get_codebook
 from sift_vlad.utils.vlad import get_vlad_base, get_pic_vlad
 
 
-def ret_vlad(q_crop_list, db_crop_list, panorama_id, result_path, metric="cs", device='cpu', DESDIM=128):
+def ret_vlad(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, result_path, metric="cs", device='cpu', DESDIM=128):
     
     '''
     panorama_id : ID of panorama, specific location identified number including query and database
@@ -97,14 +97,13 @@ def ret_vlad(q_crop_list, db_crop_list, panorama_id, result_path, metric="cs", d
 
     # save top1 pair .txt
     os.makedirs(result_path + '/sift_best_pair/', exist_ok=True)
-    out_file = result_path + '/sift_best_pair/' + f"pair_{panorama_id}_sift" + ".txt"
+    out_file = result_path + '/sift_best_pair/' + f"pair_{q_panorama_id}-{db_panorama_id}_sift" + ".txt"
     
     # if repeated, the lines is accumulated
     if os.path.isfile(out_file):
         os.remove(out_file)
-        
+    
     f_out = open(out_file, 'w')
-
     for q_idx in list(result_dic.keys()):
         #### L2 Distance/ Cos_Sim ####
         if metric == "l2":  # Norm L2 Dist

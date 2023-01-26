@@ -31,9 +31,9 @@ def search(query_feature, reference_feature):
     return D, I
 
 
-def make_result(D, I, panorama_id, result_path):
+def make_result(D, I, q_panorama_id, db_panorama_id, result_path):
 
-    res_txt_path = result_path + f"pair_{panorama_id}_vit.txt"
+    res_txt_path = result_path + f"pair_{q_panorama_id}-{db_panorama_id}_vit.txt"
     
     # if repeated, the lines is accumulated
     if os.path.isfile(res_txt_path):
@@ -51,10 +51,10 @@ def make_result(D, I, panorama_id, result_path):
     print(f"\nSaving...\n{res_txt_path}\nDone.")
 
         
-def main(query_feature, reference_feature, panorama_id, result_path):
+def main(query_feature, reference_feature, q_panorama_id, db_panorama_id, result_path):
 
     D, I = search(query_feature, reference_feature)
-    make_result(D, I, panorama_id, result_path)
+    make_result(D, I, q_panorama_id, db_panorama_id, result_path)
 
 if __name__ == '__main__':
     # feature extractor args 

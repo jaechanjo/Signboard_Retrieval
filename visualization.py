@@ -3,13 +3,18 @@ import json
 import os
 from pathlib import Path
 
-def dic2visualization(q_img_path, db_img_path, q_json_path, db_json_path, result_dict,\
-                      save_dir, method):
+# input image
+# only for top1
+def dic2visualization(q_img_path, db_img_path, result_dict, save_dir, method='vit'):
     
-    panorama_id = Path(q_json_path).stem.split('@')[0] #str
+    # same name with img
+    q_json_path = q_img_path[:-len(Path(q_img_path).suffix)] + '.json'
+    db_json_path = db_img_path[:-len(Path(db_img_path).suffix)] + '.json'
+    
+    q_panorama_id = Path(q_json_path).stem.split('@')[0] #str
+    db_panorama_id = Path(db_json_path).stem.split('@')[0] #str
     
     q_panorama = cv2.imread(q_img_path)
-    
     db_panorama = cv2.imread(db_img_path)
     
     # horizontally concatenates images
@@ -25,7 +30,7 @@ def dic2visualization(q_img_path, db_img_path, q_json_path, db_json_path, result
     with open(db_json_path, "r") as js:
         db_lbl = json.load(js)
     
-    for q_idx in result_dict[panorama_id].keys():
+    for q_idx in result_dict[f"{q_panorama_id}-{db_panorama_id}"].keys():
         
         coord_list = q_lbl['shapes'][int(q_idx)]['points']
         x_list = list(map(lambda x: int(x[0]), coord_list))
@@ -41,12 +46,12 @@ def dic2visualization(q_img_path, db_img_path, q_json_path, db_json_path, result
         del y_list
         
         #draw rectangle
-        if len(result_dict[panorama_id][q_idx]) == 0:#empty
+        if len(result_dict[f"{q_panorama_id}-{db_panorama_id}"][q_idx]) == 0:#empty
             cv2.rectangle(im_h, (qmin_x,qmin_y), (qmax_x,qmax_y), (0,0,255), 2) #cv2 (B,G,R)
         else:
             cv2.rectangle(im_h, (qmin_x,qmin_y), (qmax_x,qmax_y), (0,255,0), 2)
         
-            for db_idx in result_dict[panorama_id][q_idx]:
+            for db_idx in result_dict[f"{q_panorama_id}-{db_panorama_id}"][q_idx]:
 
                 coord_list = db_lbl['shapes'][int(db_idx)]['points']
                 x_list = list(map(lambda x: int(x[0]), coord_list))
@@ -68,13 +73,13 @@ def dic2visualization(q_img_path, db_img_path, q_json_path, db_json_path, result
                 cv2.line(im_h, (qmax_x, int((qmin_y+qmax_y)/2)), (dbmin_x+h, int((dbmin_y+dbmax_y)/2)), (0,255,0), 2)
     
     #save
-    out_file = save_dir + f"/pair_{panorama_id}_{method}.jpg"
+    out_file = save_dir + f"/pair_{q_panorama_id}-{db_panorama_id}_{method}.jpg"
     
     #if duplicated, remove it
     if os.path.isfile(out_file):
         os.remove(out_file)
     
-    cv2.imwrite(save_dir + f"/pair_{panorama_id}_{method}.jpg", im_h)
+    cv2.imwrite(out_file, im_h)
     
     #done
     print(f"\nSaving...\n{out_file}\nDone.")
