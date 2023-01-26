@@ -161,8 +161,6 @@ All commands should be executed within the `Signboard_Retrieval/` subfolder
 python3 main.py\
 --q_img_path ./result/sample/query/100@230124.jpg\  # query panorama image path
 --db_img_path ./result/sample/db/100@190124.jpg\  # db panorama image path
---q_json_path ./result/sample/query/100@230124.json\  # query detetion result json path
---db_json_path ./result/sample/db/100@190124.json\  # db detetion result json path
 
 ### default params
 # --result_path ./match_score/
@@ -180,18 +178,34 @@ python3 main.py\
 ```shell
 from ${WORKSPACE}.Signboard_Retrieval import main
 
-result_dict = main(q_img_path, db_img_path, q_json_path, db_json_path, \
-                   result_path='./match_score/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
+result_dict, result_json = main(q_img_path, db_img_path, \
+                                result_path='./match_score/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
 
 ### sample
 
-#result_dict = {'400': {'0': ['23'], '1': ['18'], '2': [], '3': ['28'], '4': ['26'], '5': ['26'], 
-#                '6': ['15'], '7': [], '8': ['22'], '9': ['6'], '10': [], '11': ['8'], '12': ['26'], 
-#                '13': ['7'], '14': ['9'], '15': ['25'], '16': ['11'], '17': ['12'], '18': ['13'], 
-#                '19': [], '20': ['16'], '21': [], '22': [], '23': ['27'], '24': ['19'], '25': ['14'], 
+#result_dict = {'400-400': {'0': ['23'], '1': ['18'], '2': [], '3': ['28'], '4': ['26'], '5': ['26'],
+#                '6': ['15'], '7': [], '8': ['22'], '9': ['6'], '10': [], '11': ['8'], '12': ['26'],
+#                '13': ['7'], '14': ['9'], '15': ['25'], '16': ['11'], '17': ['12'], '18': ['13'],
+#                '19': [], '20': ['16'], '21': [], '22': [], '23': ['27'], '24': ['19'], '25': ['14'],
 #                '26': ['29'], '27': ['31'], '28': [], '29': ['30'], '30': ['32']}}
 
-# the number is cropped index, [] means unmatched pairs
+## '400-400' is "(query_id)-(db_id)", '0', '1', '2' ... is cropped sign index, [] means unmatched pairs
+
+
+/
+#result_json = {'db_image': '/home/Signboard_Retrieval/roadview_384_crop/panorama_test/panorama_ori/db/400@19635502076_E.jpg', 
+#               'query_image': '/home/Signboard_Retrieval/roadview_384_crop/panorama_test/panorama_ori/query/400@21401602716_E.jpg', 
+#               'matches': [
+#                           {'db_box_index': 23, 'query_box_index': 0}, 
+#                           {'db_box_index': 18, 'query_box_index': 1}, 
+#                           {'db_box_index': 28, 'query_box_index': 3}, 
+#                           {'db_box_index': 26, 'query_box_index': 4},
+#                            ... ,
+#                           {'db_box_index': 32, 'query_box_index': 30}
+#                          ]
+#              }
+
+## 'db_image' is db_image_path, 'query_image' is query_image_path, 'matches' is list of matched box index dictionary
 ```
 
 ### 3. Validation on labeled dataset
