@@ -126,8 +126,8 @@ Please understand that it will take some time because the weight file is downloa
 
 ```shell
 cd ${WORKSPACE}  # directory for git clone
-git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/SCA-SignMatching.git
-cd SCA-SignMatching
+git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/Signboard_Retrieval.git
+cd Signboard_Retrieval
 docker-compose up -d  # build docker container
 ```
 
@@ -140,7 +140,7 @@ cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE"; done  # ig
 ### 3. File Tree
 
 ```shell
-${WORKSPACE}/SCA-SignMatching/
+${WORKSPACE}/Signboard_Retrieval/
 ├─data
 │  ├─result
 │  │  ├─sift_best_pair  # sift matching result txt
@@ -159,6 +159,7 @@ ${WORKSPACE}/SCA-SignMatching/
 │  └─vit
 │      ├─ ...
 │      └─utils
+├─scripts
 └─utils
 ```
 
@@ -186,7 +187,7 @@ python3 main.py\
 ### 2. Import function
 
 ```shell
-from ${WORKSPACE}.SCA-SignMatching import main
+from ${WORKSPACE}.Signboard_Retrieval import main
 
 result_dict, result_json = main(q_img_path, db_img_path, \
                                 result_path='./data/result/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
