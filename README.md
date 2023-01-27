@@ -1,4 +1,4 @@
-# SignMatching with SIFT, VIT
+# Signboard Retrieval with SIFT, VIT
 
 Python implementation
 
