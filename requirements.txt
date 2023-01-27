@@ -11,5 +11,5 @@ matplotlib
 torchvision
 torchinfo
 torchsummary
-timm
 ptflops
+timm

@@ -1,19 +1,19 @@
-# Signboard_Retrieval with SIFT, VIT
+# SignMatching with SIFT, VIT
 
 Python implementation
 
 **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee**
 
-![pair_960_vit](result/pair_960_vit.jpg)
-![pair_100_vit](result/pair_100_vit.jpg)
-![pair_400_vit](result/pair_400_vit.jpg)
+![pair_960_vit](docs/result/pair_960_vit.jpg)
+![pair_100_vit](docs/result/pair_100_vit.jpg)
+![pair_400_vit](docs/result/pair_400_vit.jpg)
 
 ## Method Overview
 1. Panorama is first matched with [CosPlace](https://github.com/gmberton/CosPlace)
 2. Detect signs with trained [yolov7](https://github.com/WongKinYiu/yolov7) from ours datasets : [Signboard_Dataset_for_Post-OCR-Parsing](https://github.com/jaechanjo/Signboard_Dataset_for_Post-OCR-Parsing)
 3. Crop the signboard, run the SIFT and VIT matching algorithms, and output the result **(OURS)**
 
-![Structure](result/Structure.jpg)
+![Structure](docs/images/Structure.jpg)
 
 ## Evaluation
 
@@ -118,14 +118,16 @@ Python implementation
   </tr>
 </table>
 
+Please understand that it will take some time because the weight file is downloaded at first.
+
 ## Setup
 
 ### 1. Docker compose
 
 ```shell
 cd ${WORKSPACE}  # directory for git clone
-git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/Signboard_Retrieval.git
-cd Signboard_Retrieval
+git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/SCA-SignMatching.git
+cd SCA-SignMatching
 docker-compose up -d  # build docker container
 ```
 
@@ -138,31 +140,40 @@ cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE"; done  # ig
 ### 3. File Tree
 
 ```shell
-${WORKSPACE}/Signboard_Retrieval/
-├─match_score
-│  ├─sift_best_pair  # sift matching result txt
-│  ├─visualization  # image of boxes and lines connected
-│  └─vit_best_pair  # vit matching result txt
-├─result
-├─sift_vlad 
-│  └─utils
-└─vit
-    ├─ ...
-    └─utils
+${WORKSPACE}/SCA-SignMatching/
+├─data
+│  ├─result
+│  │  ├─sift_best_pair  # sift matching result txt
+│  │  ├─visualization  # image of boxes and lines connected
+│  │  └─vit_best_pair  # vit matching result txt
+│  └─sample
+│      ├─db
+│      └─query
+├─docker
+├─docs
+│  ├─images
+│  └─result
+├─models
+│  ├─sift_vlad
+│  │  └─utils
+│  └─vit
+│      ├─ ...
+│      └─utils
+└─utils
 ```
 
 ## Usage
-All commands should be executed within the `Signboard_Retrieval/` subfolder
+All commands should be executed within the `SCA-SignMatching/` subfolder
 
 ### 1. Running Matching
 
 ```shell
 python3 main.py\
---q_img_path ./result/sample/query/100@230124.jpg\  # query panorama image path
---db_img_path ./result/sample/db/100@190124.jpg\  # db panorama image path
+--q_img_path ./data/sample/query/400@230124.jpg\  # query panorama image path
+--db_img_path ./data/sample/db/400@190124.jpg\  # db panorama image path
 
 ### default params
-# --result_path ./match_score/
+# --result_path ./data/result/
 # --topk 1  # the number of matching candidates
 # --match_weight 1/4  # threshold of whether matched or not
 # --method 'vit'  # module, ['vit', 'sift', 'vit_sift', 'sift_vit']
@@ -175,10 +186,10 @@ python3 main.py\
 ### 2. Import function
 
 ```shell
-from ${WORKSPACE}.Signboard_Retrieval import main
+from ${WORKSPACE}.SCA-SignMatching import main
 
 result_dict, result_json = main(q_img_path, db_img_path, \
-                                result_path='./match_score/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
+                                result_path='./data/result/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
 
 ### sample
 
@@ -192,8 +203,8 @@ result_dict, result_json = main(q_img_path, db_img_path, \
 
 
 /
-#result_json = {'db_image': '/home/Signboard_Retrieval/roadview_384_crop/panorama_test/panorama_ori/db/400@19635502076_E.jpg', 
-#               'query_image': '/home/Signboard_Retrieval/roadview_384_crop/panorama_test/panorama_ori/query/400@21401602716_E.jpg', 
+#result_json = {'db_image': './data/sample/db/400@190124.jpg', 
+#               'query_image': './data/sample/query/400@230124.jpg', 
 #               'matches': [
 #                           {'db_box_index': 23, 'query_box_index': 0}, 
 #                           {'db_box_index': 18, 'query_box_index': 1}, 
@@ -220,11 +231,11 @@ result_dict, result_json = main(q_img_path, db_img_path, \
   parsing(img_lbl_dir, save_dir)
   
   ### params
-  #img_lbl_dir : str, ***the directory has image & label json of same file name ex) 400.jpg/ 400.json
+  #img_lbl_dir : str, ***the directory has image & label json of same file name ex) 400@230124.jpg/ 400@230124.json
   #save_dir : str, the directory of saving parsing image files 
   ```
 
-  For more detailed instructions, see the instructions in the [validation.ipynb](./validation.ipynb)
+  For more detailed instructions, see the instructions in the [eval.ipynb](./eval.ipynb)
 
 ```
 ### Best result

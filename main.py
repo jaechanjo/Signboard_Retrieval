@@ -9,15 +9,15 @@ from pathlib import Path
 import argparse
 import faiss
 
-from crop import crop_get
-from sift_vlad.rank import ret_vlad
-from vit.main import main as ret_vit
-from merge import merge_topk
-from visualization import dic2visualization
+from utils.crop import crop_get
+from models.sift_vlad.rank import ret_vlad
+from models.vit.main import main as ret_vit
+from utils.merge import merge_topk
+from utils.visualization import dic2visualization
 
 
 def main(q_img_path, db_img_path,\
-         result_path='./match_score/', topk=1, match_weight='1/4', method='vit', algo='max', device='cuda', batch_size=64, num_workers=0):
+         result_path='./data/result/', topk=1, match_weight='1/4', method='vit', algo='max', device='cuda', batch_size=64, num_workers=0):
     
     #crop panorama query & db
     q_crop_list, db_crop_list, q_panorama_id, db_panorama_id = crop_get(q_img_path, db_img_path)
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     
     parser.add_argument('--q_img_path', nargs='?', type=str, help='query panorama image path')
     parser.add_argument('--db_img_path', nargs='?', type=str, help='db panorama image path')
-    parser.add_argument('--result_path', type=str, default='./match_score/')
+    parser.add_argument('--result_path', type=str, default='./data/result/')
     parser.add_argument('--topk', type=int, default=1, help='the number of matching candidates')
     parser.add_argument('--match_weight', type=str, default='1/4', \
                         help='threshold of whether matched or not')
