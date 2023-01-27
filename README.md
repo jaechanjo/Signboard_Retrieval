@@ -146,10 +146,9 @@ ${WORKSPACE}/Signboard_Retrieval/
 ├─result
 ├─sift_vlad 
 │  └─utils
-├─vit
-│  ├─ ...
-│  └─utils
-└─yolov7  # detector
+└─vit
+    ├─ ...
+    └─utils
 ```
 
 ## Usage
