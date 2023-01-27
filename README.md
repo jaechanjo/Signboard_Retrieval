@@ -164,7 +164,7 @@ ${WORKSPACE}/Signboard_Retrieval/
 ```
 
 ## Usage
-All commands should be executed within the `SCA-SignMatching/` subfolder
+All commands should be executed within the `Signboard_Retrieval/` subfolder
 
 ### 1. Running Matching
 
