@@ -1,12 +1,14 @@
-# Signboard Retrieval with SIFT, VIT
+# SignMatching with SIFT, VIT
 
 Python implementation
 
+This project implemented matching of shopping mall signboards using this SIFT and VIT features
+
 **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee**
 
-![pair_960_vit](docs/result/pair_960_vit.jpg)
-![pair_100_vit](docs/result/pair_100_vit.jpg)
-![pair_400_vit](docs/result/pair_400_vit.jpg)
+![pair_960-960_vit](docs/result/pair_960-960_vit.jpg)
+![pair_100-100_vit](docs/result/pair_100-100_vit.jpg)
+![pair_400-400_vit](docs/result/pair_400-400_vit.jpg)
 
 ## Method Overview
 1. Panorama is first matched with [CosPlace](https://github.com/gmberton/CosPlace)
@@ -45,7 +47,12 @@ Python implementation
   </tr>
 </table>
 
-
+> datasets download
+  ```shell
+     # (optional) it can be used for evaluation
+     sh scripts/download.sh
+  ```        
+  
 ### 2. Performace evaluation
 - According to the match threshold, recall and precision of top1
  <table style="width:100%">
@@ -56,18 +63,18 @@ Python implementation
   </tr>
   <tr>
     <td><b>1/4</b></td>
-    <td><b>0.78</b></td>
-    <td><b>0.79</b></td>
+    <td><b>0.82</b></td>
+    <td><b>0.80</b></td>
   </tr>
   <tr>
     <td>1/2</td>
-    <td>0.64</td>
-    <td>0.88</td>
+    <td>0.69</td>
+    <td>0.87</td>
   </tr>
   <tr>
     <td>3/4</td>
-    <td>0.55</td>
-    <td>0.93</td>
+    <td>0.58</td>
+    <td>0.92</td>
   </tr>
 </table>
    
@@ -80,18 +87,18 @@ Python implementation
   </tr>
   <tr>
     <td>SIFT</td>
-    <td>0.37</td>
-    <td>0.49</td>
+    <td>0.42</td>
+    <td>0.55</td>
   </tr>
   <tr>
     <td><b>VIT</b></td>
-    <td><b>0.78</b></td>
-    <td><b>0.79</b></td>
+    <td><b>0.82</b></td>
+    <td><b>0.80</b></td>
   </tr>
   <tr>
     <td>SIFT+VIT</td>
-    <td>0.66</td>
-    <td>0.73</td>
+    <td>0.69</td>
+    <td>0.74</td>
   </tr>
 </table>
 
@@ -126,8 +133,8 @@ Please understand that it will take some time because the weight file is downloa
 
 ```shell
 cd ${WORKSPACE}  # directory for git clone
-git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/Signboard_Retrieval.git
-cd Signboard_Retrieval
+git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/SCA-SignMatching.git
+cd SCA-SignMatching
 docker-compose up -d  # build docker container
 ```
 
@@ -140,56 +147,68 @@ cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE"; done  # ig
 ### 3. File Tree
 
 ```shell
-${WORKSPACE}/Signboard_Retrieval/
+${WORKSPACE}/SCA-SignMatching/
 ├─data
 │  ├─result
-│  │  ├─sift_best_pair  # sift matching result txt
-│  │  ├─visualization  # image of boxes and lines connected
-│  │  └─vit_best_pair  # vit matching result txt
+│  │  ├─sift_best_pair    # sift matching result txt
+│  │  ├─visualization     # image of boxes and lines connected
+│  │  └─vit_best_pair     # vit matching result txt
 │  └─sample
-│      ├─db
-│      └─query
+│      ├─db               # sample db
+│      └─query            # sample query
 ├─docker
 ├─docs
 │  ├─images
 │  └─result
-├─models
+├─models                  # feature extractor
 │  ├─sift_vlad
 │  │  └─utils
 │  └─vit
-│      ├─ ...
 │      └─utils
-├─scripts
-└─utils
+├─scripts                 # script for downloading sample dataset
+└─utils                   # utility for module
 ```
 
+### 4. Data preparation
+
+  - Place the panoramic image and the json file that is the result of the signboard detector module in the same path.
+  - The image and json file must have the same name.
+        
+    ```shell
+    data/sample/db/db_img.jpg
+    data/sample/db/db_img.json
+    data/sample/query/query_img.jpg
+    data/sample/query/query_img.json
+    ```
+
 ## Usage
-All commands should be executed within the `Signboard_Retrieval/` subfolder
+All commands should be executed within the `SCA-SignMatching/` subfolder
 
 ### 1. Running Matching
 
 ```shell
 python3 main.py\
---q_img_path ./data/sample/query/400@230124.jpg\  # query panorama image path
---db_img_path ./data/sample/db/400@190124.jpg\  # db panorama image path
+--query_path ./data/sample/query/400@230124.jpg\  # query panorama image path
+--db_path ./data/sample/db/400@190124.jpg\        # db panorama image path
 
 ### default params
 # --result_path ./data/result/
-# --topk 1  # the number of matching candidates
-# --match_weight 1/4  # threshold of whether matched or not
-# --method 'vit'  # module, ['vit', 'sift', 'vit_sift', 'sift_vit']
-# --algo 'max'  # matching algorithm, ['max', 'erase']
-# --device 'cuda'  # only gpu
-# --batch_size 64  # the batch size extracting vit feature
-# --num_workers
+# -vis/ --visualize       # Whether to save the resulting image
+# --topk 1                # the number of matching candidates
+# --match_weight 1/4      # threshold of whether matched or not
+# --method 'vit'          # module, ['vit', 'sift', 'vit_sift', 'sift_vit']
+# --algo 'max'            # matching algorithm, ['max', 'erase']
+# --device 'cuda'         # only gpu
+# --batch_size 64         # the batch size extracting vit feature
+# --num_workers 0         # dataset load multi-processing
 ```
 
 ### 2. Import function
 
 ```shell
-from ${WORKSPACE}.Signboard_Retrieval import main
+from ${WORKSPACE}.SCA-SignMatching.main import main
 
-result_dict, result_json = main(q_img_path, db_img_path, \
+result_dict, result_json = main(query_path, db_path, \
                                 result_path='./data/result/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
 
 ### sample
@@ -200,10 +219,11 @@ result_dict, result_json = main(q_img_path, db_img_path, \
 #                '19': [], '20': ['16'], '21': [], '22': [], '23': ['27'], '24': ['19'], '25': ['14'],
 #                '26': ['29'], '27': ['31'], '28': [], '29': ['30'], '30': ['32']}}
 
-## '400-400' is "(query_id)-(db_id)", '0', '1', '2' ... is cropped sign index, [] means unmatched pairs
+## '400-400' is "(query_id)-(db_id)"
+## '0', '1', '2' ... is cropped sign index
+## [] means unmatched pairs
 
 
-/
 #result_json = {'db_image': './data/sample/db/400@190124.jpg', 
 #               'query_image': './data/sample/query/400@230124.jpg', 
 #               'matches': [
@@ -216,72 +236,95 @@ result_dict, result_json = main(q_img_path, db_img_path, \
 #                          ]
 #              }
 
-## 'db_image' is db_image_path, 'query_image' is query_image_path, 'matches' is list of matched box index dictionary
+## 'db_image' is db_image_path
+## 'query_image' is query_image_path
+## 'matches' is list of matched box index dictionary
 ```
 
 ### 3. Validation on labeled dataset
 
+```shell
+# download eval dataset
+sh scripts/download.sh
+
+# evaluation
+python3 eval.py\
+--query_dir ./data/gt/query/\  # query panorama image directory
+--db_dir ./data/gt/db/\        # db panorama image directory
+
+### default params
+# --result_path ./data/result/
+# --topk 1
+# --match_weight 1/4
+# --method 'vit'
+# --algo 'max'
+# --device 'cuda'
+# --batch_size 64
+# --num_workers 0
+```
+
   - Parsing Label
+       
     - parsing file name : {cropped_index}_{label}_{changed_flag}
-        ex) 0_100_False.jpg -> label 100 is unmatched pair
-            1_3_False.jpg -> False means unchanged design signs
+    
+        ex) 0_100_False.jpg, 1_3_False.jpg
+        
+        > - label 100 : unmatched pair 
+        > - False : unchanged design of sign
 
-  ```shell
-  import parsing
-  
-  parsing(img_lbl_dir, save_dir)
-  
-  ### params
-  #img_lbl_dir : str, ***the directory has image & label json of same file name ex) 400@230124.jpg/ 400@230124.json
-  #save_dir : str, the directory of saving parsing image files 
-  ```
+        ```shell
+        from utils.parsing import parsing
 
-  For more detailed instructions, see the instructions in the [eval.ipynb](./eval.ipynb)
+        parsing(query_dir, db_dir)
+        
+        ### params
+        #query_dir : str, the query directory must has image & label json of same file name ex) 400@230124.jpg/ 400@230124.json
+        #db_dir : str, the db directory that equal with query directory
+        
+        ### sample label json
+        #   {
+        #     "version": "5.1.1",
+        #     "flags": {},
+        #     "shapes": [
+        #       {
+        #         "label": "1",
+        #         "points": [
+        #           [
+        #             234.0,
+        #             362.0
+        #           ],
+        #           [
+        #             251.0,
+        #             362.0
+        #           ],
+        #           [
+        #             251.0,
+        #             426.0
+        #           ],
+        #           [
+        #             234.0,
+        #             426.0
+        #           ]
+        #         ],
+        #         "group_id": null,
+        #         "shape_type": "polygon",
+        #         "flags": {
+        #           "matched": true,
+        #           "changed": false
+        #         }
+        #       },
+        #       ...
+        #   }
+        ```
+For more detailed instructions, see the instructions in the [eval_guide.ipynb](./eval_guide.ipynb)
 
 ```
 ### Best result
 
-macro_mAP@1 : 0.89
-micro_mAP@1 : 0.91
-recall@1: 0.78
-precision@1: 0.79
-
-
-### sample label json
-- json example
-    {
-      "version": "5.1.1",
-      "flags": {},
-      "shapes": [
-        {
-          "label": "1",
-          "points": [
-            [
-              234.0,
-              362.0
-            ],
-            [
-              251.0,
-              362.0
-            ],
-            [
-              251.0,
-              426.0
-            ],
-            [
-              234.0,
-              426.0
-            ]
-          ],
-          "group_id": null,
-          "shape_type": "polygon",
-          "flags": {
-            "matched": true,
-            "changed": false
-          }
-        },
-        ...
-    }
+macro_mAP@1 : 0.91
+micro_mAP@1 : 0.92
+recall@1: 0.82
+precision@1: 0.80
 ```
 
 ## Others
