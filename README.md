@@ -165,13 +165,8 @@ ${WORKSPACE}/Signboard_Retrieval/
 │  │  └─utils
 │  └─vit
 │      └─utils
-<<<<<<< HEAD
 ├─scripts                 # script for downloading sample dataset
 └─utils                   # utility for module
-=======
-├─scripts
-└─utils
->>>>>>> 1a96b7ffe25c134aa69f0d7a997342dabff77381
 ```
 
 ### 4. Data preparation
@@ -211,11 +206,7 @@ python3 main.py\
 ### 2. Import function
 
 ```shell
-<<<<<<< HEAD
-from ${WORKSPACE}.SCA-SignMatching.main import main
-=======
-from ${WORKSPACE}.Signboard_Retrieval import main
->>>>>>> 1a96b7ffe25c134aa69f0d7a997342dabff77381
+from ${WORKSPACE}.Signboard_Retrieval.main import main
 
 result_dict, result_json = main(query_path, db_path, \
                                 result_path='./data/result/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
