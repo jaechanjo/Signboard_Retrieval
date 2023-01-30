@@ -240,6 +240,7 @@ result_dict, result_json = main(query_path, db_path, \
 ## 'query_image' is query_image_path
 ## 'matches' is list of matched box index dictionary
 ```
+For more detailed instructions, see the instructions in the [main_guide.ipynb](./main_guide.ipynb)
 
 ### 3. Validation on labeled dataset
 
