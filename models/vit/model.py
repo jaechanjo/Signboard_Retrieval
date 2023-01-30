@@ -8,7 +8,7 @@ from torch import nn
 from torchsummary import summary
 from torchvision import models
 
-from models.vit.util import L2N, gem
+from models.vit.utils.util import L2N, gem
 
 class vit_base_patch8_224_dino(nn.Module):
     def __init__(self):

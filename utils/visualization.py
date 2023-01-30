@@ -3,7 +3,6 @@ import json
 import os
 from pathlib import Path
 
-# input image
 # only for top1
 def dic2visualization(q_img_path, db_img_path, result_dict, save_dir, method='vit'):
     

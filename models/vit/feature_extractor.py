@@ -22,7 +22,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 import timm
 
-from models.vit.dataset import AugmentedDataset
+from models.vit.dataset import AugmentedDataset, AugmentedDataset_val 
 from models.vit.model import vit_base_patch8_224_dino, beitv2_large_patch16_224_in22k, swin_large_patch4_window12_384_in22k
 
 @torch.no_grad()
@@ -35,52 +35,40 @@ def features_extract(model, img_list, batch_size, num_workers, device):
     model.eval()
     bar = tqdm(loader, ncols=120, desc='extracting', unit='batch')
     
-    start = time.time()
     for batch_idx, batch_item in enumerate(bar):
         imgs = batch_item['img'].to(device)
         feat = model(imgs).cpu()
-        print(f'feat shape is {feat.shape}')
         features.append(feat)
-    print(feat.shape[0])
-    print(f'feature extraction: {time.time() - start:.2f} sec')
 
-    start = time.time()
     feature = np.vstack(features)
-    print(f"feature shape is {feature.shape}")
-
     feature = feature.reshape(feature.shape[0],-1)
-    print(f"new_feature shape is {feature.shape}")
-    
-    print(f'convert to numpy: {time.time() - start:.2f} sec')
-
-    start = time.time()
     feature = torch.from_numpy(feature)
-    print(f'convert to tensor: {time.time() - start:.2f} sec')
-
-    start = time.time()
     
     return feature
+
 
 class FeatLayer:
     def __init__(self):
         self.model = model
 
     def build_model(model, q_crop_list, db_crop_list, batch_size, num_workers, device):
-        # print(f"{summary(model, input_size=(1, 3, 384, 384))}")
+        
         ############# device check #############
         if torch.cuda.is_available() and torch.cuda.device_count() > 1:
             model = torch.nn.DataParallel(model)
         model.to(device)
 
-        ############ 쿼리/ 레퍼런스 이미지 인덱스 폴더별 피처뽑기 #######
+        ############ extract featuer ###########
+
         #query feature
         query_feature = features_extract(model, q_crop_list, batch_size, num_workers, device='cuda')
-        print(f"===== Done: query_feature\n\n")
+        print("\nExtracting query feature...\nDone.")
         #db feature
         reference_feature = features_extract(model, db_crop_list, batch_size, num_workers, device='cuda')
-        print(f"===== Done: db_feature\n\n")
-        
+        print("\nExtracting db featrue...\nDone.")
+
         return query_feature, reference_feature
+    
 
 ############# create ATTN model #############
 def attn(q_crop_list, db_crop_list, batch_size, num_workers, device):    

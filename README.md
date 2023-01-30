@@ -1,4 +1,4 @@
-# SignMatching with SIFT, VIT
+# Signboard Retrieval with SIFT, VIT
 
 Python implementation
 
@@ -133,8 +133,8 @@ Please understand that it will take some time because the weight file is downloa
 
 ```shell
 cd ${WORKSPACE}  # directory for git clone
-git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/SCA-SignMatching.git
-cd SCA-SignMatching
+git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/Signboard_Retrieval.git
+cd Signboard_Retrieval
 docker-compose up -d  # build docker container
 ```
 
@@ -147,7 +147,7 @@ cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE"; done  # ig
 ### 3. File Tree
 
 ```shell
-${WORKSPACE}/SCA-SignMatching/
+${WORKSPACE}/Signboard_Retrieval/
 ├─data
 │  ├─result
 │  │  ├─sift_best_pair    # sift matching result txt
@@ -165,8 +165,13 @@ ${WORKSPACE}/SCA-SignMatching/
 │  │  └─utils
 │  └─vit
 │      └─utils
+<<<<<<< HEAD
 ├─scripts                 # script for downloading sample dataset
 └─utils                   # utility for module
+=======
+├─scripts
+└─utils
+>>>>>>> 1a96b7ffe25c134aa69f0d7a997342dabff77381
 ```
 
 ### 4. Data preparation
@@ -182,7 +187,7 @@ ${WORKSPACE}/SCA-SignMatching/
     ```
 
 ## Usage
-All commands should be executed within the `SCA-SignMatching/` subfolder
+All commands should be executed within the `Signboard_Retrieval/` subfolder
 
 ### 1. Running Matching
 
@@ -206,7 +211,11 @@ python3 main.py\
 ### 2. Import function
 
 ```shell
+<<<<<<< HEAD
 from ${WORKSPACE}.SCA-SignMatching.main import main
+=======
+from ${WORKSPACE}.Signboard_Retrieval import main
+>>>>>>> 1a96b7ffe25c134aa69f0d7a997342dabff77381
 
 result_dict, result_json = main(query_path, db_path, \
                                 result_path='./data/result/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)

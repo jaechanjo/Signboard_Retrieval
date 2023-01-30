@@ -27,6 +27,25 @@ class AugmentedDataset(Dataset):
         
         return {'img_list': idx, 'img': img}
 
+#evaluation    
+class AugmentedDataset_val(Dataset):
+    def __init__(self, img_path_list, img_size):
+        self.img_path_list = img_path_list
+        self.transform = T.Compose([
+            T.Resize((img_size, img_size)),
+            T.ToTensor(),
+            T.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
+        ])
+
+    def __len__(self):
+        return len(self.img_path_list)
+
+    def __getitem__(self, idx):
+        img_path = self.img_path_list[idx]
+        img = Image.open(img_path)
+        img = self.transform(img)
+        
+        return {'img_list': idx, 'img': img}
 
 if __name__ == '__main__':
     img_paths = '/home/ganpan-retrieval/dataset/00.query/qh1.jpg'

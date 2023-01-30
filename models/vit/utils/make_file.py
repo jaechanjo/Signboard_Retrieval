@@ -9,14 +9,14 @@ def find_files(args):
     q_idx_path_list = []
     db_idx_path_list = []
 
-    ### 쿼리 이미지 파일 경로 반환 ###
+    # return query image file path
     for root, dirs, files in os.walk(args.q_img_path):
         for file in files:
             if file.endswith('.jpg'):
                 q_idx_path_list.append(os.path.join(root))
     q_idx_path_list = natsort.natsorted(set(q_idx_path_list))
     
-    ### 레퍼런스 이미지 파일 경로 반환 ###
+    # return ref image file path
     for root, dirs, files in os.walk(args.db_img_path):
         for file in files:
             if file.endswith('.jpg'):
@@ -59,7 +59,7 @@ def make_dict(args, D, I):
         rank_val = rank[0][0]+1 #value
         distance = D[i][rank] #value
         distance_val = distance[0]
-        #v=tuple(rank[0][0]+1, np.where(D[i] == i)[0][0])
+        
         print(f"==="*10)
         print(f"D is \n{D}")
         print(f"I is \n{I}\n")

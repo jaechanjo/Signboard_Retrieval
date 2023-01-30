@@ -32,25 +32,25 @@ def search(query_feature, reference_feature):
 
 
 def make_result(D, I, q_panorama_id, db_panorama_id, result_path):
-
-    res_txt_path = result_path + f"pair_{q_panorama_id}-{db_panorama_id}_vit.txt"
+    
+    os.makedirs(result_path + '/vit_best_pair/', exist_ok=True)
+    res_txt_path = result_path + '/vit_best_pair/' + f"pair_{q_panorama_id}-{db_panorama_id}_vit.txt"
     
     # if repeated, the lines is accumulated
     if os.path.isfile(res_txt_path):
         os.remove(res_txt_path)
-        
+    
     with open(res_txt_path, 'a', encoding='utf-8') as f:
         for n, q_idx in enumerate(range(I.shape[0])):
-            #print(f"D is \n{D}")    # 두 대상의 유사도 높은 순으로 나열 
-            #print(f"I is \n{I}\n")  # 유사도 높은 순서인 애들의 DB에서의 인덱스 
+            
             for db_idx in range(I.shape[1]):
-                # print(f"="*80)
-                txt = str(q_idx)+','+str(I[q_idx][db_idx])+','+str(D[q_idx][db_idx])
-                # print(f"query, db, similarity:\t\t{txt}\n")
+                
+                txt = str(q_idx)+'.jpg,'+str(I[q_idx][db_idx])+'.jpg,'+str(D[q_idx][db_idx])
                 f.write(txt+'\n')
+                f.flush()
     print(f"\nSaving...\n{res_txt_path}\nDone.")
-
-        
+    
+    
 def main(query_feature, reference_feature, q_panorama_id, db_panorama_id, result_path):
 
     D, I = search(query_feature, reference_feature)

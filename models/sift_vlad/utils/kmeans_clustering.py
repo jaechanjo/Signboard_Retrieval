@@ -10,14 +10,7 @@ def get_cluster_center(des_set, K):
             center - a np array of the K cluster center
     '''
     des_set = np.float32(des_set) # for kmeans 
-    
-##########################[CPU-SLOW OPENCV KMEANS]##########################
-    # criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 0.01)
-    
-    # ret, label, center = cv2.kmeans(des_set, K, None, criteria, 3, cv2.KMEANS_RANDOM_CENTERS)
-#########################################################################
 
-##########################[GPU-FAST FAISS KMEANS]##########################
     # Setup
     kmeans = faiss.Kmeans(d=128, k=K, niter=20, verbose=True, gpu=True)
     

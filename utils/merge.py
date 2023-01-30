@@ -23,7 +23,7 @@ def merge_topk(result_path, q_img_path, db_img_path, q_panorama_id, db_panorama_
                     img2 = data[1].split('.')[0]
                     score = float(data[2]) #cosine_similarity
 
-                    if img1+'-'+img2 not in merge_dict: #3가지 방법에서 특정 q_db pair가 중복된다면, 점수를 합산!
+                    if img1+'-'+img2 not in merge_dict:
                         merge_dict[img1+'-'+img2] = score
                     else:
                         merge_dict[img1+'-'+img2] += score
@@ -40,10 +40,9 @@ def merge_topk(result_path, q_img_path, db_img_path, q_panorama_id, db_panorama_
         del imgs
         score = merge_dict[key]
         
-        #특정 query에 대해, 모든 ref를 list에 모아주기
-        if q not in result_dict: #이 query가 처음 나왔을 때
+        if q not in result_dict: #query emege at first
             result_dict[q] = [(db, score)]
-        else: #query가 중복될 경우
+        else: #query emege repeatedly
             db_list = result_dict[q]
             db_list.append((db, score))
             result_dict[q] = db_list

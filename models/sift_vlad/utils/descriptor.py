@@ -25,7 +25,7 @@ class RootSIFT:
 def rootsift_extractor(img):
     '''
     Description: extract \emph{sift} feature from given image
-    Input: file_path - image path
+    Input: image
     Output: des - a list of descriptors of all the keypoint from the image
     '''
     gray= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -38,7 +38,7 @@ def rootsift_extractor(img):
 def get_des_vector(image_list, DESDIM=128):
     '''
     Description: get descriptors of all the images 
-    Input: file_path_list - all images path
+    Input: image_list - all images
            DESDIM - SIFT local descriptor dimension 128
     Output:       all_des - a np array of all descriptors
             image_des_len - a list of number of the keypoints for each image 
@@ -51,9 +51,53 @@ def get_des_vector(image_list, DESDIM=128):
     for img in image_list:
         try:
             des = rootsift_extractor(img) # RootSIFT             
+            all_des = np.concatenate([all_des, des]) 
+            image_des_len.append(len(des)) 
+        except:
+            raise Exception("extract feature error")
+    
+    # feature num count
+    featCnt = all_des.shape[0] #kp num
+    print(str(featCnt) + " features in " + " images")
+    
+    return all_des, image_des_len, featCnt
+
+#evaluation
+def rootsift_extractor_val(file_path):
+    '''
+    Description: extract \emph{sift} feature from given image
+    Input: file_path - image path
+    Output: des - a list of descriptors of all the keypoint from the image
+    '''
+    img = cv2.imread(file_path)
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    rs = RootSIFT(99999) #full
+    _, des = rs.compute(gray, None) 
+
+    return des
+
+#evaluation
+def get_des_vector_val(file_path_list, method='rootsift', DESDIM=128):
+    '''
+    Description: get descriptors of all the images 
+    Input: file_path_list - all images path
+           method - str, default = 'rootsift', the way of extracting feature ['sift', 'rootsift', 'orb']
+    Output:       all_des - a np array of all descriptors
+            image_des_len - a list of number of the keypoints for each image 
+    '''
+    
+    # all_des = np.empty(shape=[0, DESDIM]) #float64
+    all_des = np.float32([]).reshape(0,DESDIM) #float32
+    image_des_len = []
+
+    for eachFile in file_path_list:
+        
+        try:
+            des = eval(f"{method}_extractor_val('{eachFile}')") # RootSIFT                
             all_des = np.concatenate([all_des, des]) #모든 이미지의 des vector를 concat 해서 출력! #np.concat : 다차원 배열의 결과
             image_des_len.append(len(des)) #각각 이미지의 len(des)을 따로 list에 모아두기.
         except:
+            print(eachFile)
             print("extract feature error")
     
     # feature num count
