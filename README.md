@@ -10,6 +10,15 @@ This project implemented matching of shopping mall signboards using this SIFT an
 ![pair_100-100_vit](docs/result/pair_100-100_vit.jpg)
 ![pair_400-400_vit](docs/result/pair_400-400_vit.jpg)
 
+### Performace by method
+|Method| Recall   | Precision | F1-score |
+|------|----------|-----------|----------|
+|SIFT| 0.42     | 0.55      | 0.48     |
+|VIT| 0.82     | **0.80**  | **0.81**     |
+|SIFT+VIT| 0.69     | 0.74      | 0.71     |
+|SuperPoint + Superglue| 0.82     | 0.76      | 0.79     |
+|LoFTR| **0.85** | 0.77      | **0.81** |
+
 ## Method Overview
 1. Panorama is first matched with [CosPlace](https://github.com/gmberton/CosPlace)
 2. Detect signs with trained [yolov7](https://github.com/WongKinYiu/yolov7) from ours datasets : [Signboard_Dataset_for_Post-OCR-Parsing](https://github.com/jaechanjo/Signboard_Dataset_for_Post-OCR-Parsing)
