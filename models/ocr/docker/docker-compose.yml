@@ -1,0 +1,23 @@
+version: '2.3'
+
+services:
+  main:
+    container_name: SignMatching_OCR
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    runtime: nvidia
+    restart: always
+    env_file:
+      - "./main.env"
+    volumes:
+      - "./:/workspace/"
+    expose:
+      - "8000"
+    ports:
+      - "32000:22"
+      - "32050:6006"
+      - "32100:8000"
+    ipc: host
+    stdin_open: true
+    tty: true
