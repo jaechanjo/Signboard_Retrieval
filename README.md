@@ -22,7 +22,7 @@ This project implemented matching of shopping mall signboards using this SIFT an
 ## Method Overview
 1. Panorama is first matched with [CosPlace](https://github.com/gmberton/CosPlace)
 2. Detect signs with trained [yolov7](https://github.com/WongKinYiu/yolov7) from ours datasets : [Signboard_Dataset_for_Post-OCR-Parsing](https://github.com/jaechanjo/Signboard_Dataset_for_Post-OCR-Parsing)
-3. Crop the signboard, run the SIFT and VIT matching algorithms, and output the result **(OURS)**
+3. Crop the signboard, run the SIFT, VIT and OCR matching algorithms, and output the result **(OURS)**
 
 ![Structure](docs/images/Structure.jpg)
 
@@ -169,10 +169,13 @@ ${WORKSPACE}/Signboard_Retrieval/
 ├─docs
 │  ├─images
 │  └─result
-├─models                  # feature extractor
+├─models                  # Matching Models
 │  ├─sift_vlad
 │  │  └─utils
-│  └─vit
+│  ├─vit
+│  │    └─utils
+│  └─ocr                  # try& error
+│      ├─ ...
 │      └─utils
 ├─scripts                 # script for downloading sample dataset
 └─utils                   # utility for module
