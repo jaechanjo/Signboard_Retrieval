@@ -270,8 +270,8 @@ For more detailed instructions, see the instructions in the [eval_guide.ipynb](.
 ```shell
 # Best result
 
-macro_mAP@1 : 0.91
-micro_mAP@1 : 0.92
+macro_mAP@1: 0.91
+micro_mAP@1: 0.92
 recall@1: 0.82
 precision@1: 0.80
 ```
