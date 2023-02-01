@@ -118,3 +118,25 @@ Please understand that it will take some time because the weight file is downloa
 | 319.95MB | 322.02MB | **2.07MB** |
 
 The before and after memory may vary depending on the local environment.
+
+### 5. Validation on labeled dataset
+
+```shell
+# download eval dataset
+sh scripts/download.sh
+
+# evaluation
+python3 eval.py\
+--query_dir ./data/gt/query/\  # query panorama image directory
+--db_dir ./data/gt/db/\        # db panorama image directory
+```
+
+For more detailed instructions, see the instructions in the [eval_guide.ipynb](./eval_guide.ipynb)
+
+```shell
+# Best result
+macro_mAP@1: 0.91
+micro_mAP@1: 0.92
+recall@1: 0.82
+precision@1: 0.80
+```
