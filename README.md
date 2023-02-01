@@ -267,8 +267,8 @@ python3 eval.py\
 
 For more detailed instructions, see the instructions in the [eval_guide.ipynb](./eval_guide.ipynb)
 
-```
-### Best result
+```shell
+# Best result
 
 macro_mAP@1 : 0.91
 micro_mAP@1 : 0.92
