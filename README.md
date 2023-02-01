@@ -135,6 +135,21 @@ This project implemented matching of shopping mall signboards using this SIFT an
 </table>
 
 Please understand that it will take some time because the weight file is downloaded at first.
+  > weight name : swin_large_patch4_window12_384_22k.pth
+  > 
+  > weight memory : 886MB
+
+### 4. Memory (MB)
+
+- resolution of panorama image is 2000 * 1000 px
+
+| Before   | After    | Memory |
+|----------|----------|--------|
+| 319.95MB | 322.02MB | **2.07MB** |
+
+The before and after memory may vary depending on the local environment.
+
+
 
 ## Setup
 
@@ -224,6 +239,7 @@ result_dict, result_json = model.inference(opt.query_path, opt.db_path)
 
 ```shell
 #sample result
+
 result_dict = {'400-400': {'0': ['23'], '1': ['18'], '2': [], '3': ['28'], '4': ['26'], '5': ['26'],
                 '6': ['15'], '7': [], '8': ['22'], '9': ['6'], '10': [], '11': ['8'], '12': ['26'],
                 '13': ['7'], '14': ['9'], '15': ['25'], '16': ['11'], '17': ['12'], '18': ['13'],
@@ -233,7 +249,6 @@ result_dict = {'400-400': {'0': ['23'], '1': ['18'], '2': [], '3': ['28'], '4': 
 # '400-400' is "(query_id)-(db_id)"
 # '0', '1', '2' ... is cropped sign index
 # [] means unmatched pairs
-
 
 result_json = {'db_image': './data/sample/db/400@190124.jpg', 
                'query_image': './data/sample/query/400@230124.jpg', 
