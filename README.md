@@ -135,9 +135,7 @@ This project implemented matching of shopping mall signboards using this SIFT an
 </table>
 
 Please understand that it will take some time because the weight file is downloaded at first.
-  > weight name : swin_large_patch4_window12_384_22k.pth
-  > 
-  > weight memory : 886MB
+  > weight : swin_large_patch4_window12_384_22k.pth (886MB)
 
 ### 4. Memory (MB)
 
@@ -284,7 +282,6 @@ For more detailed instructions, see the instructions in the [eval_guide.ipynb](.
 
 ```shell
 # Best result
-
 macro_mAP@1: 0.91
 micro_mAP@1: 0.92
 recall@1: 0.82
