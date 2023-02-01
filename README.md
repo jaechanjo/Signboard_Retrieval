@@ -253,8 +253,6 @@ result_json = {'db_image': './data/sample/db/400@190124.jpg',
 ```
 For more detailed instructions, see the instructions in the [main_guide.ipynb](./main_guide.ipynb)
 
-For additional hyperparameters, see the following file. [params.py](./config/params.py)
-
 ### 3. Validation on labeled dataset
 
 ```shell
