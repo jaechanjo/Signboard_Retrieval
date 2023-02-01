@@ -196,63 +196,64 @@ ${WORKSPACE}/Signboard_Retrieval/
 ## Usage
 All commands should be executed within the `Signboard_Retrieval/` subfolder
 
-### 1. Running Matching
+For additional hyperparameters, see the following file. [params.py](./config/params.py)
+
+### 1. Run Python
 
 ```shell
 python3 main.py\
 --query_path ./data/sample/query/400@230124.jpg\  # query panorama image path
 --db_path ./data/sample/db/400@190124.jpg\        # db panorama image path
-
-### default params
-# --result_path ./data/result/
-# -vis/ --visualize       # Whether to save the resulting image
-# --topk 1                # the number of matching candidates
-# --match_weight 1/4      # threshold of whether matched or not
-# --method 'vit'          # module, ['vit', 'sift', 'vit_sift', 'sift_vit']
-# --algo 'max'            # matching algorithm, ['max', 'erase']
-# --device 'cuda'         # only gpu
-# --batch_size 64         # the batch size extracting vit feature
-# --num_workers 0         # dataset load multi-processing
+-vis/ --visualize       # Whether to save the resulting image
 ```
 
-### 2. Import function
+### 2. Import Class
+
+```python
+from main import SIFT_VIT
+
+query_path = './data/sample/query/400@230124.jpg'
+db_path = './data/sample/db/400@190124.jpg'
+
+#load model
+model = SIFT_VIT()
+
+#inference
+result_dict, result_json = model.inference(opt.query_path, opt.db_path)
+```
 
 ```shell
-from ${WORKSPACE}.Signboard_Retrieval.main import main
+#sample result
+result_dict = {'400-400': {'0': ['23'], '1': ['18'], '2': [], '3': ['28'], '4': ['26'], '5': ['26'],
+                '6': ['15'], '7': [], '8': ['22'], '9': ['6'], '10': [], '11': ['8'], '12': ['26'],
+                '13': ['7'], '14': ['9'], '15': ['25'], '16': ['11'], '17': ['12'], '18': ['13'],
+                '19': [], '20': ['16'], '21': [], '22': [], '23': ['27'], '24': ['19'], '25': ['14'],
+                '26': ['29'], '27': ['31'], '28': [], '29': ['30'], '30': ['32']}}
 
-result_dict, result_json = main(query_path, db_path, \
-                                result_path='./data/result/', topk=1, match_weight=1/4, method='vit', algo='max', device='cuda', batch_size=64, num_workers=0)
-
-### sample
-
-#result_dict = {'400-400': {'0': ['23'], '1': ['18'], '2': [], '3': ['28'], '4': ['26'], '5': ['26'],
-#                '6': ['15'], '7': [], '8': ['22'], '9': ['6'], '10': [], '11': ['8'], '12': ['26'],
-#                '13': ['7'], '14': ['9'], '15': ['25'], '16': ['11'], '17': ['12'], '18': ['13'],
-#                '19': [], '20': ['16'], '21': [], '22': [], '23': ['27'], '24': ['19'], '25': ['14'],
-#                '26': ['29'], '27': ['31'], '28': [], '29': ['30'], '30': ['32']}}
-
-## '400-400' is "(query_id)-(db_id)"
-## '0', '1', '2' ... is cropped sign index
-## [] means unmatched pairs
+# '400-400' is "(query_id)-(db_id)"
+# '0', '1', '2' ... is cropped sign index
+# [] means unmatched pairs
 
 
-#result_json = {'db_image': './data/sample/db/400@190124.jpg', 
-#               'query_image': './data/sample/query/400@230124.jpg', 
-#               'matches': [
-#                           {'db_box_index': 23, 'query_box_index': 0}, 
-#                           {'db_box_index': 18, 'query_box_index': 1}, 
-#                           {'db_box_index': 28, 'query_box_index': 3}, 
-#                           {'db_box_index': 26, 'query_box_index': 4},
-#                            ... ,
-#                           {'db_box_index': 32, 'query_box_index': 30}
-#                          ]
-#              }
+result_json = {'db_image': './data/sample/db/400@190124.jpg', 
+               'query_image': './data/sample/query/400@230124.jpg', 
+               'matches': [
+                           {'db_box_index': 23, 'query_box_index': 0}, 
+                           {'db_box_index': 18, 'query_box_index': 1}, 
+                           {'db_box_index': 28, 'query_box_index': 3}, 
+                           {'db_box_index': 26, 'query_box_index': 4},
+                            ... ,
+                           {'db_box_index': 32, 'query_box_index': 30}
+                          ]
+              }
 
-## 'db_image' is db_image_path
-## 'query_image' is query_image_path
-## 'matches' is list of matched box index dictionary
+# 'db_image' is db_image_path
+# 'query_image' is query_image_path
+# 'matches' is list of matched box index dictionary
 ```
 For more detailed instructions, see the instructions in the [main_guide.ipynb](./main_guide.ipynb)
+
+For additional hyperparameters, see the following file. [params.py](./config/params.py)
 
 ### 3. Validation on labeled dataset
 
@@ -264,71 +265,8 @@ sh scripts/download.sh
 python3 eval.py\
 --query_dir ./data/gt/query/\  # query panorama image directory
 --db_dir ./data/gt/db/\        # db panorama image directory
-
-### default params
-# --result_path ./data/result/
-# --topk 1
-# --match_weight 1/4
-# --method 'vit'
-# --algo 'max'
-# --device 'cuda'
-# --batch_size 64
-# --num_workers 0
 ```
 
-  - Parsing Label
-       
-    - parsing file name : {cropped_index}_{label}_{changed_flag}
-    
-        ex) 0_100_False.jpg, 1_3_False.jpg
-        
-        > - label 100 : unmatched pair 
-        > - False : unchanged design of sign
-
-        ```shell
-        from utils.parsing import parsing
-
-        parsing(query_dir, db_dir)
-        
-        ### params
-        #query_dir : str, the query directory must has image & label json of same file name ex) 400@230124.jpg/ 400@230124.json
-        #db_dir : str, the db directory that equal with query directory
-        
-        ### sample label json
-        #   {
-        #     "version": "5.1.1",
-        #     "flags": {},
-        #     "shapes": [
-        #       {
-        #         "label": "1",
-        #         "points": [
-        #           [
-        #             234.0,
-        #             362.0
-        #           ],
-        #           [
-        #             251.0,
-        #             362.0
-        #           ],
-        #           [
-        #             251.0,
-        #             426.0
-        #           ],
-        #           [
-        #             234.0,
-        #             426.0
-        #           ]
-        #         ],
-        #         "group_id": null,
-        #         "shape_type": "polygon",
-        #         "flags": {
-        #           "matched": true,
-        #           "changed": false
-        #         }
-        #       },
-        #       ...
-        #   }
-        ```
 For more detailed instructions, see the instructions in the [eval_guide.ipynb](./eval_guide.ipynb)
 
 ```
