@@ -1,4 +1,4 @@
-## Inference
+## Usage
 
 All commands should be executed within the `Signboard_Retrieval/` subfolder
 
