@@ -9,33 +9,43 @@ from pathlib import Path
 import argparse
 import faiss
 
+from config.params import *
 from utils.crop import crop_get
 from models.sift_vlad.rank import ret_vlad
 from models.vit.main import main as ret_vit
 from utils.merge import merge_topk
 from utils.visualization import dic2visualization
 
+class SIFT_VIT:
+    def __init__(self):
+        #params
+        self.result_path = result_path
+        self.topk = topk
+        self.match_weight = eval(match_weight)
+        self.method = method
+        self.algo = algo
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        
+        
+    def inference(self, query_path, db_path):
+    
+        #crop panorama query & db
+        q_crop_list, db_crop_list, q_panorama_id, db_panorama_id = crop_get(query_path, db_path)
+        
+        #multiprocessing
+        proc1 = Process(target=ret_vlad, args=(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, self.result_path, "cs", 'cpu'))
+        proc2 = Process(target=ret_vit, args=(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, self.result_path, self.batch_size, self.num_workers, 'cuda'))
+        
+        #multi processing
+        proc1.start(); proc2.start()
+        proc1.join(); proc2.join()
 
-def main(query_path, db_path,\
-         result_path='./data/result/', topk=1, match_weight='1/4', method='vit', algo='max', device='cuda', batch_size=64, num_workers=0):
-    
-    #crop panorama query & db
-    q_crop_list, db_crop_list, q_panorama_id, db_panorama_id = crop_get(query_path, db_path)
-    
-    #multi processing
-    proc1 = Process(target=ret_vlad, args=(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, result_path, "cs", device))
-    proc2 = Process(target=ret_vit, args=(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, result_path, batch_size,\
-                                     num_workers, device))
-    
-    proc1.start(); proc2.start()
-    proc1.join(); proc2.join()
+        #merge_topk
+        #str2float
+        result_dict, result_json = merge_topk(self.result_path, query_path, db_path, q_panorama_id, db_panorama_id, self.topk, self.match_weight, self.method, self.algo)
 
-    #merge_topk
-    #str2float
-    match_weight = eval(match_weight)
-    result_dict, result_json = merge_topk(result_path, query_path, db_path, q_panorama_id, db_panorama_id, topk, match_weight, method, algo)
-    
-    return result_dict, result_json
+        return result_dict, result_json
 
 
 if __name__ == '__main__':
@@ -52,17 +62,18 @@ if __name__ == '__main__':
                         help="module, ['vit', 'sift', 'vit_sift', 'sift_vit']")
     parser.add_argument('--algo', type=str, default='max', \
                         help="matching algorithm, ['max', 'erase']")
-    parser.add_argument('--device', type=str, default='cuda') 
     parser.add_argument('--batch_size', type=int, default=64, \
                         help='the batch size extracting vit feature') 
     parser.add_argument('--num_workers', type=int, default=0)
     
     opt = parser.parse_args()
     
-    ### signboard retrieval ###
-    result_dict, result_json = main(opt.query_path, opt.db_path, \
-         opt.result_path, opt.topk, opt.match_weight, opt.method, opt.algo, \
-         opt.device, opt.batch_size, opt.num_workers)
+    
+    #load model
+    model = SIFT_VIT()
+    
+    #inference
+    result_dict, result_json = model.inference(opt.query_path, opt.db_path)
     
     ###### print result ###
     # print(f"{result_dict}\n\n")
@@ -71,4 +82,4 @@ if __name__ == '__main__':
     ### visualization ###
     if opt.visualize:
         dic2visualization(opt.query_path, opt.db_path,\
-                          result_dict, f"{opt.result_path}/visualization/", opt.method)        
+                          result_dict, f"{opt.result_path}/visualization/", opt.method)
