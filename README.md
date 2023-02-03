@@ -1,4 +1,4 @@
-# Signboar_Retrieval with LoFTR
+# Signboar Retrieval with LoFTR
 본 프로젝트는 LoFTR을 이용해 상가간판 매칭기술을 구현한 프로젝트입니다.
 
 ## Introduction
