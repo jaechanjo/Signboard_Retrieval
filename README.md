@@ -1,4 +1,4 @@
-# SCA-SignMatching (LoFTR)
+# Signboar_Retrieval with LoFTR
 본 프로젝트는 LoFTR을 이용해 상가간판 매칭기술을 구현한 프로젝트입니다.
 
 ## Introduction
@@ -59,10 +59,11 @@
 * 아래 명령어를 순차적으로 수행하면 docker container 내에서 background로 실행됩니다.
 ```shell
 # in Host
-git clone -b LoFTR https://${PERSONAL_TOKEN}@github.com/sogang-mm/SCA-SignMatching.git SCA-LoFTR
-cd SCA-LoFTR/
+git clone -b LoFTR https://${PERSONAL_TOKEN}@github.com/jaechanjo/Signboard_Retrieval.git LoFTR
+cd LoFTR/
 docker-compose up -d --build
 docker attach LoFTR_main
+
 # in docker container
 source ~/.bashrc
 sh scripts/entrypoint.sh 
