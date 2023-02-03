@@ -64,14 +64,15 @@ sh scripts/server_start.sh
 ```
 ### Shutdown API Server
 
-if you execute following command, api server in background is stopped.
+- if you execute following command, api server in background is stopped.
 
 ```shell
 sh scripts/server_shutdown.sh
 ```
 
 ## Others
-This implementation was developed by **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee.** 
+
+- This implementation was developed by **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee.** 
 
 If you have any problem or error during running code, please email to us.
 
