@@ -4,8 +4,8 @@
 
 ```shell
 cd ${WORKSPACE}  # directory for git clone
-git clone https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/Signboard_Retrieval.git
-cd Signboard_Retrieval
+git clone -b main https://${GITHUB_PERSONAL_TOKEN}@github.com/jaechanjo/Signboard_Retrieval.git SIFT_VIT
+cd SIFT_VIT
 docker-compose up -d  # build docker container
 ```
 
@@ -18,7 +18,7 @@ cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE"; done  # ig
 ### 3. File Tree
 
 ```shell
-${WORKSPACE}/Signboard_Retrieval/
+${WORKSPACE}/SIFT_VIT/
 ├─data
 │  ├─result
 │  │  ├─sift_best_pair    # sift matching result txt
