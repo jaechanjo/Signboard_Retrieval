@@ -1,4 +1,4 @@
-# SCA-SignMatching (Superpoint + Superglue)
+# Signboard_Retrieval with Superpoint + Superglue
 본 프로젝트는 Superglue feature matching을 이용해 상가간판 매칭기술을 구현한 프로젝트입니다.
 
 ## Introduction
@@ -55,14 +55,16 @@
 [HowToEvaluate.md](https://github.com/sogang-mm/SCA-SignMatching/tree/superglue/docs/HowToEvaluate.md)
 
 ## How to run RESTful API Server
+
 ### Start API Server
 * 아래 명령어를 순차적으로 수행하면 docker container 내에서 background로 실행됩니다.
 ```shell
 # in Host
-git clone -b superglue https://${PERSONAL_TOKEN}@github.com/sogang-mm/SCA-SignMatching.git SCA-SuperGlue
-cd SCA-SuperGlue/
+git clone -b superglue https://${PERSONAL_TOKEN}@github.com/jeachanjo/Signboard_Retrieval.git SuperGlue
+cd SuperGlue/
 docker-compose up -d --build
 docker attach SuperGlue_main
+
 # in docker container
 source ~/.bashrc
 sh scripts/entrypoint.sh 
