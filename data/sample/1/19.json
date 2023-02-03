@@ -1,0 +1,204 @@
+{
+    "version": "5.1.1",
+    "flags": {
+        "matched": false
+    },
+    "shapes": [
+        {
+            "label": "0",
+            "points": [
+                [
+                    1778,
+                    452
+                ],
+                [
+                    1837,
+                    452
+                ],
+                [
+                    1837,
+                    467
+                ],
+                [
+                    1778,
+                    467
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    1156,
+                    369
+                ],
+                [
+                    1199,
+                    369
+                ],
+                [
+                    1199,
+                    395
+                ],
+                [
+                    1156,
+                    395
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    1348,
+                    206
+                ],
+                [
+                    1376,
+                    206
+                ],
+                [
+                    1376,
+                    287
+                ],
+                [
+                    1348,
+                    287
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    1356,
+                    279
+                ],
+                [
+                    1381,
+                    279
+                ],
+                [
+                    1381,
+                    457
+                ],
+                [
+                    1356,
+                    457
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    399,
+                    412
+                ],
+                [
+                    608,
+                    412
+                ],
+                [
+                    608,
+                    449
+                ],
+                [
+                    399,
+                    449
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    1385,
+                    359
+                ],
+                [
+                    1487,
+                    359
+                ],
+                [
+                    1487,
+                    417
+                ],
+                [
+                    1385,
+                    417
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    1142,
+                    422
+                ],
+                [
+                    1220,
+                    422
+                ],
+                [
+                    1220,
+                    464
+                ],
+                [
+                    1142,
+                    464
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    1489,
+                    357
+                ],
+                [
+                    1753,
+                    357
+                ],
+                [
+                    1753,
+                    428
+                ],
+                [
+                    1489,
+                    428
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        }
+    ],
+    "imagePath": "19.jpg",
+    "imageHeight": 1000,
+    "imageWidth": 2000,
+    "imageData": null
+}

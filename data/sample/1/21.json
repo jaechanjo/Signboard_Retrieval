@@ -1,0 +1,276 @@
+{
+    "version": "5.1.1",
+    "flags": {
+        "matched": false
+    },
+    "shapes": [
+        {
+            "label": "0",
+            "points": [
+                [
+                    119,
+                    421
+                ],
+                [
+                    133,
+                    421
+                ],
+                [
+                    133,
+                    473
+                ],
+                [
+                    119,
+                    473
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    702,
+                    447
+                ],
+                [
+                    760,
+                    447
+                ],
+                [
+                    760,
+                    466
+                ],
+                [
+                    702,
+                    466
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    761,
+                    406
+                ],
+                [
+                    834,
+                    406
+                ],
+                [
+                    834,
+                    442
+                ],
+                [
+                    761,
+                    442
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    283,
+                    231
+                ],
+                [
+                    305,
+                    231
+                ],
+                [
+                    305,
+                    276
+                ],
+                [
+                    283,
+                    276
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    124,
+                    479
+                ],
+                [
+                    186,
+                    479
+                ],
+                [
+                    186,
+                    505
+                ],
+                [
+                    124,
+                    505
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    133,
+                    443
+                ],
+                [
+                    198,
+                    443
+                ],
+                [
+                    198,
+                    477
+                ],
+                [
+                    133,
+                    477
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    284,
+                    277
+                ],
+                [
+                    306,
+                    277
+                ],
+                [
+                    306,
+                    347
+                ],
+                [
+                    284,
+                    347
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    652,
+                    365
+                ],
+                [
+                    675,
+                    365
+                ],
+                [
+                    675,
+                    468
+                ],
+                [
+                    652,
+                    468
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    757,
+                    307
+                ],
+                [
+                    836,
+                    307
+                ],
+                [
+                    836,
+                    385
+                ],
+                [
+                    757,
+                    385
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    1446,
+                    380
+                ],
+                [
+                    1677,
+                    380
+                ],
+                [
+                    1677,
+                    440
+                ],
+                [
+                    1446,
+                    440
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        },
+        {
+            "label": "0",
+            "points": [
+                [
+                    307,
+                    396
+                ],
+                [
+                    385,
+                    396
+                ],
+                [
+                    385,
+                    448
+                ],
+                [
+                    307,
+                    448
+                ]
+            ],
+            "group_id": null,
+            "shape_type": "polygon",
+            "flags": {}
+        }
+    ],
+    "imagePath": "21.jpg",
+    "imageHeight": 1000,
+    "imageWidth": 2000,
+    "imageData": null
+}
