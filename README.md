@@ -1,4 +1,4 @@
-# Signboard_Retrieval with Superpoint + Superglue
+# Signboard Retrieval with Superpoint + Superglue
 본 프로젝트는 Superglue feature matching을 이용해 상가간판 매칭기술을 구현한 프로젝트입니다.
 
 ## Introduction
