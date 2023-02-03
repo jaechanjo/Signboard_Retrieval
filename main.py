@@ -27,11 +27,11 @@ class SIFT_VIT:
         self.batch_size = batch_size
         self.num_workers = num_workers
         
-        
-    def inference(self, query_path, db_path):
+
+    def inference(self, query_path, db_path, query_json, db_json):
     
         #crop panorama query & db
-        q_crop_list, db_crop_list, q_panorama_id, db_panorama_id = crop_get(query_path, db_path)
+        q_crop_list, db_crop_list, q_panorama_id, db_panorama_id = crop_get(query_path, db_path, query_json, db_json)
         
         #multiprocessing
         proc1 = Process(target=ret_vlad, args=(q_crop_list, db_crop_list, q_panorama_id, db_panorama_id, self.result_path, "cs", 'cpu'))
@@ -45,7 +45,7 @@ class SIFT_VIT:
         #str2float
         result_dict, result_json = merge_topk(self.result_path, query_path, db_path, q_panorama_id, db_panorama_id, self.topk, self.match_weight, self.method, self.algo)
 
-        return result_dict, result_json
+        return result_json
 
 
 if __name__ == '__main__':
@@ -53,6 +53,8 @@ if __name__ == '__main__':
     
     parser.add_argument('--query_path', nargs='?', type=str, help='query panorama image path')
     parser.add_argument('--db_path', nargs='?', type=str, help='db panorama image path')
+    parser.add_argument('--query_json_path', nargs='?', type=str, help='query label json path')
+    parser.add_argument('--db_json_path', nargs='?', type=str, help='db label json path')
     parser.add_argument('--result_path', type=str, default='./data/result/')
     parser.add_argument('-vis', '--visualize', action='store_true', help='Whether to save the resulting image')
     parser.add_argument('--topk', type=int, default=1, help='the number of matching candidates')
@@ -68,12 +70,17 @@ if __name__ == '__main__':
     
     opt = parser.parse_args()
     
+    #load json
+    with open(opt.query_json_path, 'r') as qj:
+        query_det = json.load(qj)
+    with open(opt.db_json_path, 'r') as dbj:
+        db_det = json.load(dbj)
     
     #load model
     model = SIFT_VIT()
     
     #inference
-    result_dict, result_json = model.inference(opt.query_path, opt.db_path)
+    result_json = model.inference(opt.query_path, opt.db_path, query_det, db_det)
     
     ###### print result ###
     # print(f"{result_dict}\n\n")

@@ -1,23 +1,55 @@
 version: '2.3'
-  
+
 services:
+  database:
+    container_name: SIFT_VIT_database
+    image: mysql:8.0.21
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    env_file:
+      - "docker/database.env"
+    restart: always
+    expose:
+      - 3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 3s
+      retries: 10
+
+  redis:
+    container_name: SIFT_VIT_redis
+    image: redis:5.0-alpine
+    restart: always
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      timeout: 3s
+      retries: 10
+
   main:
-    container_name: "SignMatching_SIFT_VIT"
+    container_name: SIFT_VIT_main
     build:
-      context: "./docker"
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: 'docker/Dockerfile'
     runtime: nvidia
     restart: always
+    ipc: "host"
     env_file:
-      - "./docker/main.env"
-    volumes:
-      - "./:/workspace/"
+      - "docker/main.env"
+      - "docker/database.env"
     expose:
+      - "8888"
       - "8000"
+      - "22"
     ports:
-      - "45000:8888"
-      - "45001:8097"
-      - "45002:22"
-    ipc: host
+      - "58080:8000"
+      - "58887:8888"
+      - "60022:22"
+    links:
+      - database
+      - redis
+    depends_on:
+      - database
+      - redis
     stdin_open: true
     tty: true

@@ -7,6 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get -y install \
     python3 python3-pip python3-dev \
+    mysql-client libmysqlclient-dev python3-mysqldb \
     git ssh vim
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
@@ -17,9 +18,24 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes #prohibit-p
 RUN pip3 install --upgrade pip
 RUN pip3 install setuptools
 
+ENV DJANGO_SUPERUSER_USERNAME djangoadmin
+ENV DJANGO_SUPERUSER_EMAIL none@none.com
+ENV DJANGO_SUPERUSER_PASSWORD djangopwdpwd
+ENV C_FORCE_ROOT = "true"
+
+RUN export DJANGO_SUPERUSER_USERNAME=djangoadmin
+RUN export DJANGO_SUPERUSER_EMAIL=none@none.com
+RUN export DJANGO_SUPERUSER_PASSWORD=djangopwdpwd
+RUN export C_FORCE_ROOT="true"
+RUN export SERVICE_NAME_DATABASE=database
+RUN export MYSQL_ROOT_PASSWORD=dbpwdpwd
+RUN export MYSQL_DATABASE=dbname
+RUN export MYSQL_USER=dbadmin
+RUN export MYSQL_PASSWORD=dbpwdpwd
+
 WORKDIR /workspace
 ADD . .
+RUN pip install -r requirements.txt
+RUN mkdir /workspace/static
 
-ENV PYTHONPATH $PYTHONPATH:/workspace
-
-RUN chmod -R a+w /workspace
+RUN service ssh restart
