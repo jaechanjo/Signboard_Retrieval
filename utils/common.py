@@ -63,3 +63,4 @@ def read_gray_image(img_path):
     ret = cv2.imread(str(img_path), cv2.IMREAD_GRAYSCALE)
     ret = cv2.resize(ret, (2000, 1000))
     return ret
+

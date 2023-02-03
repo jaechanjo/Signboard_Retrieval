@@ -1,7 +1,15 @@
 # SCA-SignMatching (Superpoint + Superglue)
-본 프로젝트는 Superglue feature matching을 이용해 상가간판 매칭기술을 구현한 프로젝트이다.
+본 프로젝트는 Superglue feature matching을 이용해 상가간판 매칭기술을 구현한 프로젝트입니다.
+
+## Introduction
+본 모듈은 한 쌍의 로드뷰 파노라마 이미지와 SCA-ObjectDetection 모듈의 결과를 입력으로 받아 동일한 간판끼리 매칭하는 기능을 담당합니다.
+
+간판 매칭에는 Superglue feature matching을 이용하였으며 본 모듈의 시각화 결과는 아래 이미지와 같습니다.
+
+![img.png](docs/images/img.png)
 ## Pipeline
 ![img.png](docs/images/pipeline.png)
+
 ## Project Architecture
 ```shell
 .
@@ -15,90 +23,53 @@
 ├── main.py                     # Superglue SignMatching 추론 모듈
 ├── requirements.txt            
 ├── scripts      
-          ├── download.sh              
-│   └── download_weights.sh             # 성능평가 데이터셋 다운로드 스크립트
+│   ├── download.sh             # 성능평가 데이터셋 다운로드 스크립트        
+│   └── download_weights.sh     # Superglue 모델 다운로드 스크립트         
 └── utils
     ├── __init__.py
     └── common.py               # 모듈 실행을 위한 유틸리티
 
 ```
 
-## Performance
-### Method 별 성능
-|Method| Recall   | Precision | F1-score |
-|------|----------|-----------|----------|
-|SIFT| 0.42     | 0.55      | 0.48     |
-|VIT| 0.82     | **0.80**  | **0.81**     |
-|SIFT+VIT| 0.69     | 0.74      | 0.71     |
-|SuperPoint + Superglue| 0.82     | 0.76      | 0.79     |
-|LoFTR| **0.85** | 0.77      | **0.81** |
-### Superglue 파라미터별 성능
-
-| k   | Match threshold | recall   | precision | F1-score |
-|-----|-----------------|----------|-----------|----------|
-| 1   | 0.4             | **0.85** | 0.68      | 0.76     |
-| 1   | 0.5             | 0.82     | 0.73      | 0.77     |
-| 2   | 0.4             | 0.82     | 0.76      | 0.78     |
-| 2   | 0.5             | 0.81     | 0.78      | **0.79** |
-| 3   | 0.4             | 0.78     | 0.78      | 0.78     |
-| 3   | 0.5             | 0.74     | 0.81      | 0.78     |
-| 4   | 0.4             | 0.74     | 0.80      | 0.77     |
-| 4   | 0.5             | 0.70     | 0.83      | 0.76     |
-| 5   | 0.4             | 0.69     | 0.82      | 0.75     |
-| 5   | 0.5             | 0.66     | **0.84**  | 0.74     |
 
 ## Installation
-```shell
-$ cd ${WORKSPACE}
-$ git clone -b superglue --single-branch https:github.com/gyusik19/SCA-SignMatching
-$ cd SCA-SignMatching
-$ vim docker-compose.yml
-  # volume 경로, ports 수정
-$ docker-compose up -d --build
-$ docker attach ${CONTAINER NAME}
-$ pip install -r requirements.txt
-```
+본 프로젝트는 Docker 컨테이너 상에서 실행하기를 권장합니다.
+
+설치 방법은 아래 링크 참조
+
+[HowToInstall.md](https://github.com/sogang-mm/SCA-SignMatching/tree/superglue/docs/HowToInstall.md)
+
 ## Inference
-Data preparation
+추론 방법은 아래 링크 참조
 
-- 파노라마 이미지와 간판 detector 모듈의 결과인 json 파일을 같은 경로에 위치시킨다.
-- 이미지와 json 파일은 같은 이름을 가지도록 한다.
-
-```shell
-data/sample/db_dir/db_img.jpg
-data/sample/db_dir/db_img.json
-data/sample/query_dir/query_img.jpg
-data/sample/query_dir/query_img.json
-```
-```shell
-python main.py \
---db_path 'data/sample/1/19.jpg' \
---query_path 'data/sample/1/21.jpg' \
---match_threshold 0.4 \
---k 2 \
---visualize \
---output_dir 'data/result'
-```
-visualize 결과
-![img.png](docs/images/img.png)
+[HowToInfer.md](https://github.com/sogang-mm/SCA-SignMatching/tree/superglue/docs/HowToInfer.md)
 
 ## Evaluation
-```shell
-# 평가용 데이터 다운로드
-sh scripts/download_weights.sh
-python eval.py \
---db_path 'data/gt/db' \
---query_path 'data/gt/query' \
---match_threshold 0.4 \
---k 2
-```
-다음과 같은 결과를 확인할 수 있다.
+### Best F1-score
+| Recall   | Precision | F1-score |
+|----------|-----------|----------|
+| 0.82     | 0.76      | 0.79     |
 
+평가 결과 및 평가 방법은 아래 링크 참조
+
+[HowToEvaluate.md](https://github.com/sogang-mm/SCA-SignMatching/tree/superglue/docs/HowToEvaluate.md)
+
+## How to run RESTful API Server
+### Start API Server
+* 아래 명령어를 순차적으로 수행하면 docker container 내에서 background로 실행됩니다.
 ```shell
-num GT :  704
-num TP, num FP 410 68
-recall :  0.582
-precision :  0.858
-F1-score : 0.6937394247038918
-eval time :  14.831 sec
+# in Host
+git clone -b superglue https://${PERSONAL_TOKEN}@github.com/sogang-mm/SCA-SignMatching.git SCA-SuperGlue
+cd SCA-SuperGlue/
+docker-compose up -d --build
+docker attach SuperGlue_main
+# in docker container
+source ~/.bashrc
+sh scripts/entrypoint.sh 
+sh scripts/server_start.sh
+```
+### Shutdown API Server
+* 아래 쉘스크립트 명령어를 수행하면 background로 실행 중인 API 서버가 종료됩니다.
+```shell
+sh scripts/server_shutdown.sh
 ```

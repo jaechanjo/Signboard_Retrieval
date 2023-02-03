@@ -1,8 +1,33 @@
 version: '2.3'
 
 services:
+  database:
+    container_name: SuperGlue_database
+    image: mysql:8.0.21
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    env_file:
+      - "docker/database.env"
+    restart: always
+    expose:
+      - 3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 3s
+      retries: 10
+
+  redis:
+    container_name: SuperGlue_redis
+    image: redis:5.0-alpine
+    restart: always
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      timeout: 3s
+      retries: 10
+
   main:
-    container_name: SignBoardMatching
+    container_name: SuperGlue_main
     build:
       context: ./
       dockerfile: 'docker/Dockerfile'
@@ -11,13 +36,20 @@ services:
     ipc: "host"
     env_file:
       - "docker/main.env"
+      - "docker/database.env"
     expose:
       - "8888"
       - "8000"
       - "22"
     ports:
-      - "18000:8000"
-      - "18888:8888"
-      - "10022:22"
+      - "58000:8000"
+      - "58888:8888"
+      - "50022:22"
+    links:
+      - database
+      - redis
+    depends_on:
+      - database
+      - redis
     stdin_open: true
     tty: true
