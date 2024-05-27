@@ -7,259 +7,137 @@
     <th>Count</th>
   </tr>
   <tr>
-    <td><b>Total Individuals</b></td>
-    <td><b>3</b></td>
+    <td><b>total pairs</b></td>
+    <td><b>97</b></td>
   </tr>
   <tr>
-    <td>Images per Individual</td>
-    <td>5</td>
+    <td>query cropped signs</td>
+    <td>1,301</td>
   </tr>
   <tr>
-    <td><b>Total Images</b></td>
-    <td><b>15</b></td>
+    <td>db cropped signs</td>
+    <td>1,229</td>
+  </tr>
+  <tr>
+    <td>Matched pairs</td>
+    <td>704</td>
+  </tr>
+  <tr>
+    <td>Unmatched pairs</td>
+    <td>597</td>
   </tr>
 </table>
+
+> datasets download
+  ```shell
+     # (optional) it can be used for evaluation
+     sh scripts/download.sh
+  ```        
   
 ### 2. Performace evaluation
-The performance evaluation was conducted using the following five metrics: L1, Cosine Distance, LPIPS, SSIM, and PSNR.
-#### 2.1 Comparison
-<table style="width:100%">
+- According to the match threshold, recall and precision of top1
+ <table style="width:100%">
   <tr>
-    <th>Method</th>
-    <th>L1↓</th>
-    <th>Cos Dist.↓</th>
-    <th>LPIPS↓</th>
-    <th>SSIM↑</th>
-    <th>PSNR↑</th>
+    <th>Match threshold</th>
+    <th>Recall@1</th>
+    <th>Precsion@1</th>
   </tr>
   <tr>
-    <td>IPA</td>
-    <td>1.099</td>
-    <td>0.714</td>
-    <td>0.767</td>
-    <td>0.403</td>
-    <td>10.454</td>
+    <td><b>1/4</b></td>
+    <td><b>0.82</b></td>
+    <td><b>0.80</b></td>
   </tr>
   <tr>
-    <td>IPA-Plus</td>
-    <td>1.129</td>
-    <td>0.752</td>
-    <td>0.740</td>
-    <td>0.445</td>
-    <td>11.626</td>
+    <td>1/2</td>
+    <td>0.69</td>
+    <td>0.87</td>
   </tr>
   <tr>
-    <td>IPA-Plus-FaceID</td>
-    <td>1.074</td>
-    <td>0.678</td>
-    <td>0.676</td>
-    <td>0.492</td>
-    <td>12.758</td>
+    <td>3/4</td>
+    <td>0.58</td>
+    <td>0.92</td>
   </tr>
 </table>
-<table style="width:100%">
+   
+- When the best match threshold is 1/4, depending on the model
+ <table style="width:100%">
   <tr>
-    <th>Method</th>
-    <th>L1↓</th>
-    <th>Cos Dist.↓</th>
-    <th>LPIPS↓</th>
-    <th>SSIM↑</th>
-    <th>PSNR↑</th>
+    <th>Match threshold_1/4</th>
+    <th>Recall@1</th>
+    <th>Precsion@1</th>
   </tr>
   <tr>
-    <td>LoRA</td>
-    <td>1.169</td>
-    <td>0.845</td>
-    <td>0.750</td>
-    <td>0.426</td>
-    <td>11.106</td>
+    <td>SIFT</td>
+    <td>0.42</td>
+    <td>0.55</td>
   </tr>
   <tr>
-    <td>InstantID</td>
-    <td>1.064</td>
-    <td>0.694</td>
-    <td>0.762</td>
-    <td>0.368</td>
-    <td>10.666</td>
+    <td><b>VIT</b></td>
+    <td><b>0.82</b></td>
+    <td><b>0.80</b></td>
   </tr>
   <tr>
-    <td>TIFF (Ours)</td>
-    <td>0.892</td>
-    <td>0.478</td>
-    <td>0.691</td>
-    <td>0.431</td>
-    <td>12.406</td>
-  </tr>
-  <tr>
-    <td>Ref Image (GT)</td>
-    <td>0.838</td>
-    <td>0.419</td>
-    <td>0.386</td>
-    <td>0.546</td>
-    <td>inf.</td>
+    <td>SIFT+VIT</td>
+    <td>0.69</td>
+    <td>0.74</td>
   </tr>
 </table>
-<table style="width:100%">
-  <tr>
-    <th>Method</th>
-    <th>L1↓</th>
-    <th>Cos Dist.↓</th>
-    <th>LPIPS↓</th>
-    <th>SSIM↑</th>
-    <th>PSNR↑</th>
-  </tr>
-  <tr>
-    <td>LoRA</td>
-    <td>1.251</td>
-    <td>0.969</td>
-    <td>0.773</td>
-    <td>0.434</td>
-    <td>10.424</td>
-  </tr>
-  <tr>
-    <td>InstantID</td>
-    <td>1.222</td>
-    <td>0.924</td>
-    <td>0.785</td>
-    <td>0.397</td>
-    <td>10.869</td>
-  </tr>
-  <tr>
-    <td>TIFF (Ours)</td>
-    <td>0.967</td>
-    <td>0.568</td>
-    <td>0.723</td>
-    <td>0.438</td>
-    <td>12.293</td>
-  </tr>
-  <tr>
-    <td>Ref Video (GT)</td>
-    <td>0.950</td>
-    <td>0.519</td>
-    <td>0.605</td>
-    <td>0.442</td>
-    <td>11.315</td>
-  </tr>
-</table>
-#### 2.2 Ablation Studies
-<table style="width:100%">
-  <tr>
-    <th>Method</th>
-    <th>L1↓</th>
-    <th>Cos Dist.↓</th>
-    <th>LPIPS↓</th>
-    <th>SSIM↑</th>
-    <th>PSNR↑</th>
-  </tr>
-  <tr>
-    <td>w/o IPA</td>
-    <td>1.116</td>
-    <td>0.745</td>
-    <td>0.751</td>
-    <td>0.420</td>
-    <td>10.445</td>
-  </tr>
-  <tr>
-    <td>with IPA</td>
-    <td>1.076</td>
-    <td>0.686</td>
-    <td>0.716</td>
-    <td>0.461</td>
-    <td>11.968</td>
-  </tr>
-</table>
-<table style="width:100%">
-  <tr>
-    <th>Method</th>
-    <th>L1↓</th>
-    <th>Cos Dist.↓</th>
-    <th>LPIPS↓</th>
-    <th>SSIM↑</th>
-    <th>PSNR↑</th>
-  </tr>
-  <tr>
-    <td>w/o Face Reconstruction</td>
-    <td>0.821</td>
-    <td>0.394</td>
-    <td>0.697</td>
-    <td>0.499</td>
-    <td>12.686</td>
-  </tr>
-  <tr>
-    <td>Code Former</td>
-    <td>0.829</td>
-    <td>0.400</td>
-    <td>0.687</td>
-    <td>0.490</td>
-    <td>12.626</td>
-  </tr>
-  <tr>
-    <td>GFPGAN v1.4</td>
-    <td>0.814</td>
-    <td>0.385</td>
-    <td>0.692</td>
-    <td>0.496</td>
-    <td>12.682</td>
-  </tr>
-</table>
-<table style="width:100%">
-  <tr>
-    <th>Method</th>
-    <th>L1↓</th>
-    <th>Cos Dist.↓</th>
-    <th>LPIPS↓</th>
-    <th>SSIM↑</th>
-    <th>PSNR↑</th>
-  </tr>
-  <tr>
-    <td>w/o Face Module</td>
-    <td>1.168</td>
-    <td>0.844</td>
-    <td>0.773</td>
-    <td>0.388</td>
-    <td>11.191</td>
-  </tr>
-  <tr>
-    <td>With Face Module</td>
-    <td>0.949</td>
-    <td>0.545</td>
-    <td>0.751</td>
-    <td>0.402</td>
-    <td>11.601</td>
-  </tr>
-</table>
-<table style="width:100%">
-  <tr>
-    <th>Method</th>
-    <th>L1↓</th>
-    <th>Cos Dist.↓</th>
-    <th>LPIPS↓</th>
-    <th>SSIM↑</th>
-    <th>PSNR↑</th>
-  </tr>
-  <tr>
-    <td>w/o IPA Face Module</td>
-    <td>1.131</td>
-    <td>0.794</td>
-    <td>0.772</td>
-    <td>0.383</td>
-    <td>11.097</td>
-  </tr>
-  <tr>
-    <td>With IPA Face Module</td>
-    <td>0.987</td>
-    <td>0.596</td>
-    <td>0.752</td>
-    <td>0.407</td>
-    <td>11.694</td>
-  </tr>
 
-### 3. Validation
+### 3. Time (sec)
+
+<table style="width:100%">
+ <tr>
+   <th>Model</th>
+   <th>Crop</th>
+   <th><b>Feature Extraction</b></th>
+   <th>Merge</th>
+   <th>Total</th>
+ </tr>
+ <tr>
+   <td>SIFT</td>
+   <td rowspan=3>0.051</td>
+   <td>0.655</td>
+   <td rowspan=3>0.006</td>
+   <td rowspan=3><b>4.460</b></td>
+  </tr>
+  <tr>
+    <td>VIT</td>
+    <td><b>4.403</b></td>
+  </tr>
+</table>
+
+Please understand that it will take some time because the weight file is downloaded at first.
+  > weight : swin_large_patch4_window12_384_22k.pth (886MB)
+
+### 4. Memory (MB)
+
+- resolution of panorama image is 2000 * 1000 px
+
+| Before   | After    | Memory |
+|----------|----------|--------|
+| 319.95MB | 322.02MB | **2.07MB** |
+
+The before and after memory may vary depending on the local environment.
+
+### 5. Validation on labeled dataset
 
 ```shell
+# download eval dataset
+sh scripts/download.sh
+
 # evaluation
-python3 eval.py \
---gt_images_path ./data/gt/ \                  # Path to the ground truth images
---validation_images_path ./data/validation/ \  # Path to the validation images
---result_path ./results/                       # Path to save the evaluation csv results
+python3 eval.py\
+--query_dir ./data/gt/query/\  # query panorama image directory
+--db_dir ./data/gt/db/\        # db panorama image directory
 ```
+
+For more detailed instructions, see the instructions in the [eval_guide.ipynb](./eval_guide.ipynb)
+
+```shell
+# Best result
+macro_mAP@1: 0.91
+micro_mAP@1: 0.92
+recall@1: 0.82
+precision@1: 0.80
+```
+###
