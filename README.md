@@ -77,3 +77,8 @@ sh scripts/server_shutdown.sh
 If you have any problem or error during running code, please email to us.
 
 
+
+### Infrastructure model
+![Infrastructure main model](.infragenie/infrastructure_main_model.svg)
+
+---
