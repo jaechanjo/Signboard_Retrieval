@@ -2,7 +2,7 @@
 
 Python implementation
 
-This project implemented matching of shopping mall signboards using this SIFT and VIT features
+This project implemented matching of shopping mall signboards using this SIFT and VIT features | [PPT](https://drive.google.com/file/d/1ZKsMPgFSnArbVTGOXHyEmsi3KqdAe7PZ/view?usp=drive_link)
 
 **[Jaechan Jo](mailto:jjc123a@naver.com), Wonil Lee**
 
